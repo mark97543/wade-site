@@ -20,3 +20,19 @@
     cursor: pointer;
     color: silver;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/*                               Desktop Formats                              */
+/* -------------------------------------------------------------------------- */
+
+.desktop_header_div{
+    display: grid;
+    grid-template-columns: auto 5rem;
+    grid-template-rows: auto;
+    width: 100%;
+}
+
+.desktop_header_links{
+    background-color: red; /*Just for locating purposes */
+}

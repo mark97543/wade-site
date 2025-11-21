@@ -1,0 +1,9 @@
+button{
+    border-radius: 30px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.primary_button{
+    background-color: var(--color-button-primary);
+}

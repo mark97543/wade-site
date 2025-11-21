@@ -1,5 +1,6 @@
 import React from "react";
 import './Header.css'
+import { Desktop } from "./Desktop";
 
 
 export function Header (){
@@ -9,6 +10,7 @@ export function Header (){
                 <a  className='header_logo'>M+S</a>
             </div>
 
+            <Desktop/>
 
         </div>
     )

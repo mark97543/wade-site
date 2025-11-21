@@ -68,11 +68,14 @@ services:
     build: ./apps/main-site
     container_name: main-site
     restart: unless-stopped
+    environment:
+      - VITE_ASSETS_PROTOCOL=${VITE_ASSETS_PROTOCOL}
+      - VITE_ASSETS_DOMAIN=${VITE_ASSETS_DOMAIN}
     volumes:
       - ./apps/main-site:/app
       - /app/node_modules
       # Sync Shared UI for live editing
-      - ./apps/shared-ui:/apps/shared-ui 
+      - ./shared/shared-ui:/shared-ui 
     networks:
       - wade-network
 networks:

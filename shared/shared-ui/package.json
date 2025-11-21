@@ -1,0 +1,10 @@
+{
+  "name": "@wade/ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.jsx",
+  "dependencies": {
+    "react": "^18.2.0",
+    "@wade/ui": "file:../../shared/shared-ui"
+  }
+}

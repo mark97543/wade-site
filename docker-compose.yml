@@ -1,0 +1,89 @@
+
+services:
+  #--- 1. The Dorrman (Caddy)
+  caddy:
+    image: caddy:latest
+    container_name: wade_usa_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      ROOT_DOMAIN: ${ROOT_DOMAIN}
+      ADMIN_DOMAIN: ${ADMIN_DOMAIN}
+      ASSETS_DOMAIN: ${ASSETS_DOMAIN}
+      BUDGET_DOMAIN: ${BUDGET_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./shared:/data/shared           # <--- SUPPLY LINE (Static Assets)
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - wade-network
+  #--- 2. The Backend (Directus)
+  directus:
+    image: directus/directus:latest
+    container_name: wade_usa_directus
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    volumes:
+      - ./backend/uploads:/directus/uploads
+      - ./backend/extensions:/directus/extensions
+    environment:
+      KEY: "${SECRET}"
+      SECRET: "${SECRET}"
+      ADMIN_EMAIL: "${ADMIN_EMAIL}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      DB_CLIENT: "pg"
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_DATABASE: "directus"
+      DB_USER: "${POSTGRES_USER}"
+      DB_PASSWORD: "${POSTGRES_PASSWORD}"
+      WEBSOCKETS_ENABLED: "true"
+      CORS_ENABLED: "true"
+      # Add Domains as needed 
+      CORS_ORIGIN: "https://${ROOT_DOMAIN}, https://${ADMIN_DOMAIN}" 
+    depends_on:
+      - postgres
+    networks:
+      - wade-network
+  #--- 3. The Database (Postgres)
+  postgres:
+    image: postgres:16-alpine
+    container_name: wade_usa_postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: directus
+    networks:
+      - wade-network
+  #--- 4. Fronend Apps
+  # Main Site
+  main-site:
+    build: ./apps/main-site
+    container_name: main-site
+    restart: unless-stopped
+    volumes:
+      - ./apps/main-site:/app
+      - /app/node_modules
+      # Sync Shared UI for live editing
+      - ./apps/shared-ui:/apps/shared-ui 
+    networks:
+      - wade-network
+networks:
+  wade-network:
+    driver: bridge
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres_data:
+    
+
+
+
+    

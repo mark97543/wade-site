@@ -1,0 +1,18 @@
+
+
+# 1. Static Asset Depot
+{$ASSETS_DOMAIN} {
+    root * /data/shared
+    file_server
+    header Access-Control-Allow-Origin "*"
+}
+
+# 2. Main Website
+{$ROOT_DOMAIN} {
+    reverse_proxy main-site:5173
+}
+
+# 3. Backend Admin Panel
+{$ADMIN_DOMAIN} {
+    reverse_proxy directus:8055
+}

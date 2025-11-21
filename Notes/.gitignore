@@ -1,0 +1,26 @@
+# ## .gitignore ##
+
+# --- Secrets ---
+# Ignore environment variables and secrets. This is critical for security.
+.env
+
+# --- Dependencies ---
+# Ignore local packages for all applications.
+node_modules/
+apps/*/node_modules/
+
+# --- Build Artifacts ---
+# Ignore Vite/React build output directories.
+apps/*/dist/
+
+# --- Data & Uploads ---
+# Ignore persistent data volumes and user-uploaded content.
+data/
+backend/uploads/
+
+# --- Logs ---
+*.log
+
+# --- OS & IDE Specific ---
+.DS_Store
+.vscode/

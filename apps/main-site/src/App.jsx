@@ -1,4 +1,4 @@
-import { Header } from "../../shared-ui"
+import { Header } from "@wade/ui"
 
 
 function App() {

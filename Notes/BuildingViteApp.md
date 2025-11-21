@@ -37,7 +37,8 @@ Instead of using an automated tool, we will create each file manually to ensure 
       },
       "dependencies": {
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "@wade/ui": "file:../../shared/shared-ui"
       },
       "devDependencies": {
         "@vitejs/plugin-react": "^4.2.1",
@@ -154,19 +155,29 @@ You must update the Vite configuration to allow it to communicate correctly from
 #### 📋 Template: `vite.config.js`
 
 ```javascript
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import { fileURLToPath, URL } from 'url'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',  // Listen on all network interfaces within the container
-    port: 5173,       // The standard internal port for all our Vite apps
-    strictPort: true,
-    hmr: {
-      clientPort: 443 // Route Hot Module Replacement traffic through Caddy's HTTPS port
-    }
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const wadeUiPath = env.WADE_UI_PATH || '../../shared/shared-ui'
+
+  return {
+    plugins: [react()],
+    server: {
+      host: '0.0.0.0',
+      port: 5173,
+      strictPort: true,
+      hmr: {
+        clientPort: 443,
+      },
+    },
+    resolve: {
+      alias: {
+        '@wade/ui': fileURLToPath(new URL(wadeUiPath, import.meta.url)),
+      },
+    },
   }
 })
 ```
@@ -183,13 +194,19 @@ Now, teach Docker Compose about your new service.
   # ... other services like main-site
 
   # App X: My New App
-  my-new-app:
-    build: ./apps/my-new-app
-    container_name: my-new-app # Use a unique name
+  main-site:
+    build: ./apps/main-site
+    container_name: main-site
     restart: unless-stopped
+    environment:
+      - VITE_ASSETS_PROTOCOL=${VITE_ASSETS_PROTOCOL}
+      - VITE_ASSETS_DOMAIN=${VITE_ASSETS_DOMAIN}
+      - WADE_UI_PATH=/shared-ui
     volumes:
-      - ./apps/my-new-app:/app
+      - ./apps/main-site:/app
       - /app/node_modules
+      # Sync Shared UI for live editing
+      - ./shared/shared-ui:/shared-ui
     networks:
       - wade-network
 

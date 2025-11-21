@@ -71,11 +71,12 @@ services:
     environment:
       - VITE_ASSETS_PROTOCOL=${VITE_ASSETS_PROTOCOL}
       - VITE_ASSETS_DOMAIN=${VITE_ASSETS_DOMAIN}
+      - WADE_UI_PATH=/shared-ui
     volumes:
       - ./apps/main-site:/app
       - /app/node_modules
       # Sync Shared UI for live editing
-      - ./shared/shared-ui:/shared-ui 
+      - ./shared/shared-ui:/shared-ui
     networks:
       - wade-network
 networks:

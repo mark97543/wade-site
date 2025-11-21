@@ -200,6 +200,20 @@ The frontend **should not** store authentication tokens in `localStorage` if pos
     4.  **Browser Storage:** The browser automatically receives and stores this cookie.
     5.  **Automatic Authentication:** For every subsequent request your app makes to the same domain, the browser automatically includes the cookie in the request headers. The backend uses this cookie to identify the user and validate their session.
 
+#### 1.5.1. Handling Authentication Across Subdomains
+
+If you are running multiple applications on different subdomains of a single parent domain (e.g., `app1.wade-usa.com`, `app2.wade-usa.com`), you can enable a shared login experience (Single Sign-On) by having the backend set the authentication cookie on the parent domain.
+
+This is achieved by adding a `Domain` attribute to the `Set-Cookie` header. This tells the browser to send the cookie to any subdomain of the specified domain.
+
+**Example `Set-Cookie` Header for Subdomains:**
+`Set-Cookie: session_token=...; Domain=.wade-usa.com; HttpOnly; Secure; SameSite=Lax`
+
+*   **`Domain=.wade-usa.com`**: This is the crucial part. The leading dot (`.`) makes the cookie available to `wade-usa.com` and all its subdomains.
+*   **`SameSite=Lax`**: For cross-subdomain cookies, `SameSite=Lax` is often a better choice than `Strict` as it allows the cookie to be sent during top-level navigation, which is common in SSO flows.
+
+This is a backend configuration task. You will need to configure your authentication service (e.g., in your Directus environment variables) to set the cookie domain to `.wade-usa.com`. With this in place, a user can log in once on any subdomain and remain authenticated across all other applications on the same parent domain.
+
 **Example: Modifying `AuthContext` for Directus**
 
 Here is how you would adapt the `login` and `logout` functions in the `AuthContext` to work with a Directus backend.
@@ -429,3 +443,219 @@ CSP is an added layer of security that helps to detect and mitigate certain type
 *   **Secure Development Lifecycle (SDL):** Integrate security practices into every phase of the development process.
 *   **Logging and Monitoring:** Log security-relevant events and monitor logs for suspicious activity.
 *   **Regular Security Audits:** Conduct regular penetration testing and vulnerability scanning.
+
+### WADE-USA Implementation
+
+This section provides a detailed, step-by-step guide for implementing a centralized authentication system for `wade-usa.com` and its subdomains (e.g., `app1.wade-usa.com`, `shop.wade-usa.com`). This Single Sign-On (SSO) approach ensures a seamless and secure user experience across all related web applications.
+
+#### 1. Conceptual Architecture
+
+The system will consist of several key components, all managed within a single project structure and orchestrated with Docker.
+
+```
++-------------------------------------------------------------------+
+|                                                                   |
+| Caddy Reverse Proxy (Handles HTTPS & Routing)                     |
+|                                                                   |
+|   +----------------------+      +---------------------------+     |
+|   | wade-usa.com         |      | auth.wade-usa.com         |     |
+|   +-------+--------------+      +------------+--------------+     |
+|           |                           |                           |
+|   +-------v--------------+      +------------v--------------+     |
+|   | Main Site Docker     |      | Auth Service Docker       |     |
+|   | (React/Vite App)     |      | (Node.js/Express API)     |     |
+|   +----------------------+      +---------------------------+     |
+|                                                                   |
+|   +----------------------+      +---------------------------+     |
+|   | app1.wade-usa.com    |      | Database (PostgreSQL)     |     |
+|   +-------+--------------+      +------------+--------------+     |
+|           |                           |                           |
+|   +-------v--------------+      ^------------+                    |
+|   | App1 Docker          |      |                                 |
+|   | (React/Vite App)     |      | (Auth Service uses this DB)     |
+|   +----------------------+      +---------------------------+     |
+|                                                                   |
++-------------------------------------------------------------------+
+```
+
+#### 2. The Authentication Flow (SSO)
+
+Here is the step-by-step process for a user authenticating across subdomains:
+
+1.  **Accessing a Protected Page:** A user navigates to a protected resource, for example, `https://app1.wade-usa.com/dashboard`.
+2.  **Frontend Check:** The React application on `app1` checks for an authentication context or a valid session. Finding none, it proceeds to the next step.
+3.  **Redirection to Auth Service:** The `app1` frontend redirects the browser to the central authentication service. It includes a `redirect_uri` so the auth service knows where to send the user back.
+    -   `https://auth.wade-usa.com/login?redirect_uri=https://app1.wade-usa.com/dashboard`
+4.  **User Login:** The user sees the login page served by `auth.wade-usa.com` and enters their credentials.
+5.  **Credential Validation:** The authentication service validates the credentials against its user database.
+6.  **Cookie Issuance:** Upon success, the auth service sets a secure, `HttpOnly` cookie in the user's browser. **This is the most critical step for SSO.** The cookie must be configured correctly:
+    -   **`Domain=.wade-usa.com`**: This makes the cookie available to the parent domain and all its subdomains.
+    -   **`HttpOnly`**: Prevents JavaScript from accessing the cookie, mitigating XSS risks.
+    -   **`Secure`**: Ensures the cookie is only sent over HTTPS.
+    -   **`SameSite=Lax`**: A good balance for security and usability in an SSO flow.
+7.  **Redirection Back to App:** The auth service redirects the user back to the `redirect_uri`.
+    -   `https://app1.wade-usa.com/dashboard`
+8.  **Authenticated State:** The `app1` frontend now loads. When it makes an API call to its own backend (e.g., `api.app1.wade-usa.com`), the browser automatically attaches the shared cookie. The backend validates the token in the cookie and confirms the user is authenticated.
+9.  **Seamless Subdomain Access:** If the user now navigates to `https://shop.wade-usa.com`, that application will also have access to the cookie, and the user will already be logged in.
+
+#### 3. Caddyfile Configuration
+
+Caddy is an excellent choice for a reverse proxy because it automatically handles HTTPS for all your services. Your `Caddyfile` at the root of the project would look something like this:
+
+```caddy
+# Main Domain and Subdomains
+wade-usa.com {
+    reverse_proxy main-site:80
+}
+
+auth.wade-usa.com {
+    reverse_proxy auth-service:3000
+}
+
+app1.wade-usa.com {
+    reverse_proxy app1-site:80
+}
+
+# Add other subdomains here
+# shop.wade-usa.com {
+#     reverse_proxy shop-site:80
+# }
+```
+
+*   This configuration maps each domain/subdomain to its corresponding Docker service.
+*   Caddy will automatically provision and renew SSL certificates from Let's Encrypt.
+
+#### 4. Docker Compose (`docker-compose.yml`)
+
+Your `docker-compose.yml` file will define all the services and tie them together.
+
+```yaml
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  main-site:
+    build: ./apps/main-site
+    restart: unless-stopped
+    # No ports exposed to host, Caddy handles it
+
+  app1-site:
+    build: ./apps/app1-site # Assuming you create an app1-site
+    restart: unless-stopped
+
+  auth-service:
+    build: ./backend # Assuming your auth service is in 'backend'
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/mydatabase
+      - JWT_SECRET=your-super-secret-key
+      - COOKIE_DOMAIN=.wade-usa.com # Crucial for SSO
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydatabase
+
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres_data:
+```
+
+#### 5. Backend: Token Validation
+
+Your backend services for each application need to validate the token from the cookie. Here is a conceptual example using Node.js/Express and the `cookie-parser` and `jsonwebtoken` libraries.
+
+**`server.js` (in a backend service like `api.app1.wade-usa.com`)**
+```javascript
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+const app = express();
+app.use(cookieParser());
+
+// Middleware to protect routes
+const protect = (req, res, next) => {
+  const token = req.cookies.auth_token; // Assuming cookie is named 'auth_token'
+
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, no token' });
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // You can attach the user to the request object
+    req.user = decoded.user;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Not authorized, token failed' });
+  }
+};
+
+// Example of a protected route
+app.get('/api/data', protect, (req, res) => {
+  // If we get here, the token was valid
+  res.json({
+    message: `Hello user ${req.user.id}! Here is your protected data.`,
+  });
+});
+
+app.listen(3000, () => console.log('Server listening on port 3000'));
+```
+
+#### 6. Frontend: Handling Redirects
+
+Your React application needs logic to handle the redirection for unauthenticated users. This can be done cleanly with a custom `ProtectedRoute` component.
+
+**`ProtectedRoute.jsx`**
+```jsx
+import React from 'react';
+import { useAuth } from './AuthContext'; // Your auth context
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // While checking for authentication, show a loader
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    // Construct the redirect URL
+    const redirectUri = window.location.href;
+    const authUrl = `https://auth.wade-usa.com/login?redirect_uri=${encodeURIComponent(redirectUri)}`;
+    
+    // Redirect to the login page
+    window.location.href = authUrl;
+    return null; // Render nothing while redirecting
+  }
+
+  return children; // If authenticated, render the child components
+};
+
+export default ProtectedRoute;
+
+// Usage in your router
+// <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+```
+
+This implementation provides a robust, secure, and scalable foundation for the `wade-usa.com` ecosystem. By centralizing authentication and leveraging browser cookies correctly, you create a professional and user-friendly experience.

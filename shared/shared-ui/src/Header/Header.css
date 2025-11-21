@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Tangerine:wght@400;700&display=swap'); 
+
+.header_background{
+    display: grid;
+    grid-template-columns: 6rem auto;
+    grid-template-rows: auto;
+    align-items: center;
+    justify-items: center;
+    background-color: var(--color-secondary);
+    border-radius: 30px;
+    height: 60px;
+    padding: 0 20px;
+ 
+}
+
+.header_logo{
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Tangerine', sans-serif;
+    cursor: pointer;
+    color: silver;
+}

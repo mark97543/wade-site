@@ -3,9 +3,18 @@
 /* -------------------------------------------------------------------------- */
 :root{
     --color-background: #242424;
+    --color-secondary:#484848;
 
+    /* Text colors */
     --color-text:rgba(255, 255, 255, 0.87);
     --text-font:sans-serif;
+
+    /* Button Colors */
+    --color-button-primary: #3498db; /* Use for primary actions, like 'Submit' or 'Save' */
+    --color-button-success: #2ecc71; /* Use for positive actions, like 'Confirm' or 'Complete' */
+    --color-button-warning: #f39c12; /* Use for non-destructive but cautious actions, like 'Edit' or 'Are you sure?' */
+    --color-button-danger: #e74c3c;  /* Use for destructive actions, like 'Delete' or 'Cancel' */
+    --color-button-text: #ffffff;    /* White text for high contrast */
 }
 
 /* -------------------------------------------------------------------------- */

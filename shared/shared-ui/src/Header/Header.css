@@ -14,7 +14,7 @@
 }
 
 .header_logo{
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     font-family: 'Tangerine', sans-serif;
     cursor: pointer;
@@ -28,11 +28,11 @@
 
 .desktop_header_div{
     display: grid;
-    grid-template-columns: auto 5rem;
+    grid-template-columns: auto 5.5rem;
     grid-template-rows: auto;
     width: 100%;
 }
 
 .desktop_header_links{
-    background-color: red; /*Just for locating purposes */
+
 }

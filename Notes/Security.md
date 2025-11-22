@@ -164,6 +164,13 @@ export const AuthProvider = ({ children }) => {
     setUser(response);
   };
 
+  const addUser = async (userData) => {
+    // The SDK handles authentication, so no manual token management is needed.
+    // This will create a new user. The current user must have permissions to do this.
+    const newUser = await directus.users.createOne(userData);
+    return newUser;
+  };
+
   const logout = async () => {
     await directus.auth.logout();
     setUser(null);
@@ -175,6 +182,7 @@ export const AuthProvider = ({ children }) => {
     isAdmin: user?.role?.name === 'Admin', // Example of role check
     loading,
     login,
+    addUser,
     logout,
   };
 

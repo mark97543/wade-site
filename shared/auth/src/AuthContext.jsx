@@ -85,6 +85,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const addUser = async (userData) => {
+    try {
+      const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
+      const token = localStorage.getItem('auth_token');
+
+      if (!token) {
+        throw new Error('Authentication token not found. Only authenticated users can add new users.');
+      }
+
+      const addUserRes = await fetch(`${targetUrl}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!addUserRes.ok) {
+        const errorText = await addUserRes.text();
+        throw new Error(`Failed to add user: ${addUserRes.status} ${errorText}`);
+      }
+
+      const newUserJson = await addUserRes.json();
+      // You might want to handle the new user data, e.g., by adding it to a list of users if you're managing that in state.
+      // For now, we'll just return it.
+      return newUserJson.data;
+    } catch (error) {
+      console.error('Add user process failed:', error);
+      // We don't want to log the user out if adding a user fails, so no token removal here.
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
@@ -115,6 +149,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     logout,
+    addUser,
   };
 
   return (

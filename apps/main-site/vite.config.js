@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@wade/ui': fileURLToPath(new URL(wadeUiPath, import.meta.url)),
-        '@wade/auth': fileURLToPath(new URL('../../shared/auth/src/AuthContext.jsx', import.meta.url)),
+        '@wade/auth': fileURLToPath(new URL(wadeAuthPath, import.meta.url)),
         
       },
     },

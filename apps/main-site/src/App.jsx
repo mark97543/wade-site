@@ -7,6 +7,7 @@ import { Pending } from './pages/Pending';
 import { ProtectedRoute } from '@wade/auth';
 import { Landing } from './pages/Landing';
 import { Unauth } from './pages/Unautherized';
+import { Page404 } from './pages/404Page';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login_Page />} />
         <Route path="/register" element={<Register />} />
         <Route path='/unauthorized' element={<Unauth />} />
+        <Route path='*' element={<Page404/>}/>
         
         <Route 
           path="/pending" 

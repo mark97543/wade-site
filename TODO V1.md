@@ -1,6 +1,6 @@
 # Project TO Do
 
-## Version 1
+## Version 1 (Completed 11/22/25)
 - [x] Template for Project
 - [X] Build Header
   - [X] Need package,json for the shared components
@@ -8,28 +8,32 @@
   - [X] Custom Theme
   - [X] Button Component
     - [X] Still need to add functionality to this 
-  - [ ] Header Component
-    - [ ] Need to add mobile view 
-    - [ ] Take out viewport shape
-    - [ ] Make links glow when hovered 
-  - [x] Footer Component
-  - [ ] input.jsx: A styled <input> with a <label>. Props could include label, type, placeholder, value, onChange.
-  - [ ] Select
-  - [ ] Checkbox
-  - [ ] Card Component
-    - [ ] Will use this for the login and register page
-- [ ] Build Main Site
-  - [ ] Need to build register page
-  - [ ] Need to build 404 page
+  - [X] Header Component
+    - [X] Need to add mobile view 
+    - [X] Take out viewport shape
+    - [X] Make links glow when hovered 
+  - [X] Footer Component
+  - [X] input.jsx: A styled <input> with a <label>. Props could include label, type, placeholder, value, onChange.
+- [X] Build Main Site
+  - [X] Need to build register page
+  - [X] Need to build 404 page
 - [ ] Deploy to Digital Ocean
 
 ## Version 2
-- [ ]Add Security
+- [X]Add Security
 - [ ] Add Budget Site
 - [ ] Add Project Tock Widget
 - [ ] Deploy
 
 ## Version 3
-- [ ]Project Road Trip
+- [ ] Project Road Trip
+- [ ] Deploy
 
-## Version 4
+## Version 4 (Beutify)
+- [ ] 404 Page Grafics
+-  [ ] Landing Page
+-  [ ] Countdown
+-  [ ] Select
+-  [ ] Checkbox
+-  [ ] Card Components
+-  [ ] Deploy

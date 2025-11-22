@@ -7,3 +7,8 @@ button{
 .primary_button{
     background-color: var(--color-button-primary);
 } 
+
+.close_button{
+    background-color: var(--color-button-danger);
+}
+

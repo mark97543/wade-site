@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "@wade/auth";
+import {Button} from "@wade/ui";
 
 export function Login_Page() {
     const { login, user, isAuthenticated, logout } = useAuth();
@@ -24,7 +25,7 @@ export function Login_Page() {
                 <h1>Welcome, {user.first_name || user.email}!</h1>
                 <h3>Your Information:</h3>
                 <pre>{JSON.stringify(user, null, 2)}</pre>
-                <button onClick={logout}>Logout</button>
+                <Button text="Logout" func={logout} button_type="close" />
             </div>
         );
     }
@@ -54,7 +55,7 @@ export function Login_Page() {
                     />
                 </div>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                <button type="submit">Login</button>
+                <Button text="Login" func={handleSubmit} button_type="primary" />   
             </form>
         </div>
     );

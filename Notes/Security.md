@@ -25,14 +25,14 @@ For each role, configure the permissions for your data collections. For example,
 
 ### 1.3. Cross-Domain Authentication (CORS and Cookies)
 
-To enable authentication across different subdomains (e.g., `app1.wade-site.com` and `app2.wade-site.com`), you need to configure both CORS and the authentication cookie settings in your Directus environment configuration.
+To enable authentication across different subdomains (e.g., `wade-usa.com` and `budget.wade-usa.com`), you need to configure both CORS and the authentication cookie settings in your Directus environment configuration.
 
 **CORS (Cross-Origin Resource Sharing):**
 Set the `CORS_ORIGIN` environment variable to allow requests from all your subdomains. You can use a wildcard for development, but for production, it's better to be explicit.
 
 ```
 CORS_ENABLED=true
-CORS_ORIGIN=http://localhost:5173,https://wade-site.com,https://app1.wade-site.com
+CORS_ORIGIN=http://localhost:5173,https://wade-usa.com,https://budget.wade-usa.com
 ```
 
 **Auth Cookies:**
@@ -40,9 +40,9 @@ For seamless cross-subdomain authentication, using cookies is the best approach.
 
 ```
 AUTH_MODE=cookie
-AUTH_COOKIE_DOMAIN=.wade-site.com
+AUTH_COOKIE_DOMAIN=.wade-usa.com
 AUTH_COOKIE_SECURE=true
-AUTH_COOKIE_SAME_SITE=lax
+AUTH_COOKIE_SAME_SITE=None
 ```
 
 When using cookie-based authentication, Directus will automatically handle the access token by setting a secure, `HttpOnly` cookie. This is more secure than storing tokens in `localStorage`.
@@ -65,17 +65,34 @@ services:
       # --- AUTHENTICATION SETTINGS ---
       # CORS Configuration
       CORS_ENABLED: "true"
-      CORS_ORIGIN: "http://localhost:5173,https://wade-site.com,https://app1.wade-site.com"
+      CORS_ORIGIN: "http://localhost:5173,https://wade-usa.com,https://budget.wade-usa.com"
 
       # Cookie-based Authentication
       AUTH_MODE: "cookie"
-      AUTH_COOKIE_DOMAIN: ".wade-site.com"
+      AUTH_COOKIE_DOMAIN: ".wade-usa.com"
       AUTH_COOKIE_SECURE: "true"
-      AUTH_COOKIE_SAME_SITE: "lax"
+      AUTH_COOKIE_SAME_SITE: "None"
     # ... rest of the service definition
 ```
 
 By placing these variables here, you are instructing your Directus container how to behave regarding cross-domain requests and authentication cookies.
+
+### 1.5. SSL/TLS and Local Development (Caddy)
+
+We use Caddy as a reverse proxy to handle SSL/TLS termination. This ensures that all our applications are served over HTTPS, even locally.
+
+**Key Configuration:**
+In the `Caddyfile`, we use the `local_certs` global option. This tells Caddy to manage and trust local certificates, preventing "Not Secure" warnings in the browser during development.
+
+```caddy
+# Global Options
+{
+	# Use a local CA for trusted local development certificates
+	local_certs
+}
+```
+
+This setup mimics a production environment where SSL is mandatory, ensuring that cookies (especially those with `Secure` and `SameSite=None` attributes) work correctly.
 
 ## 2. Frontend Implementation
 

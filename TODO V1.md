@@ -3,10 +3,11 @@
 ## Version 1
 - [x] Template for Project
 - [ ] Build Header
-  - [ ] Need package,json for the shared components
+  - [X] Need package,json for the shared components
 - [ ] Build Shared CSS
-  - [ ] Custom Theme
+  - [X] Custom Theme
   - [ ] Button Component
+    - [ ] Still need to add functionality to this 
   - [ ] Header Component
   - [ ] Footer Component
   - [ ] input.jsx: A styled <input> with a <label>. Props could include label, type, placeholder, value, onChange.

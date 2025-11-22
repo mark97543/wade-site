@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@wade/auth";
 import {Button} from "@wade/ui";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@wade/ui";
 
 
 export function Login_Page() {
@@ -37,46 +38,30 @@ export function Login_Page() {
         }
     }, [user]); // Add 'pending' to the dependency array
 
-    // if (isAuthenticated && user) {
-    //     return (
-    //         <div>
-    //             <h1>Welcome, {user.first_name || user.email}!</h1>
-    //             <h3>Your Information:</h3>
-    //             <pre>{JSON.stringify(user, null, 2)}</pre>
-    //             <Button text="Logout" func={logout} button_type="close" />
-    //         </div>
-    //     );
-    // }
-
     return (
-        <div>
+        <div className="login_wrapper">
             <h1>Login Page</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <Input
+                    labelText={'Email: '}
+                    type={'email'}
+                    id={'useremail'}
+                    value={email}
+                    change={(e)=>setEmail(e.target.value)}
+                />
+
+                <Input
+                    labelText={'password'}
+                    type={'password'}
+                    id={'userpassword'}
+                    value={password}
+                    change={(e)=>setPassword(e.target.value)}
+                />
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <Button text="Login" func={handleSubmit} button_type="primary" />   
             </form>
 
-            <a href="/register">Register</a>
+            <p>Need a Account? <a href="/register">Register Here!</a></p>
         </div>
     );
 }

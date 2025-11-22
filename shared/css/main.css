@@ -9,6 +9,7 @@
     /* Text colors */
     --color-text:rgba(255, 255, 255, 0.87);
     --text-font:sans-serif;
+    --color-link-visited: #9D7BFF; /* For visited links */
 
     /* Button Colors */
     --color-button-primary: #3498db; /* Use for primary actions, like 'Submit' or 'Save' */
@@ -51,7 +52,7 @@ body{
 }
 
 /* -------------------------------------------------------------------------- */
-/*                             Header Adjustments                             */
+/*                             Tag Adjustments                             */
 /* -------------------------------------------------------------------------- */
 
 h1{
@@ -76,4 +77,17 @@ h5{
 
 h6{
     font-size: var(--font-size-6);/* 16px */
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--color-link-visited);
+}
+
+a:hover {
+    text-decoration: underline;
 }

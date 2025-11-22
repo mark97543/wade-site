@@ -57,6 +57,8 @@ export function Login_Page() {
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <Button text="Login" func={handleSubmit} button_type="primary" />   
             </form>
+
+            <a href="/register">Register</a>
         </div>
     );
 }

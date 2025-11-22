@@ -8,14 +8,19 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // On initial load, check if the user is already authenticated
     const fetchUser = async () => {
       try {
-        // This will succeed if the auth cookie is present and valid
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+          throw new Error('No auth token found');
+        }
+
         const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
         const userRes = await fetch(`${targetUrl}/users/me`, {
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
         });
 
         if (!userRes.ok) {
@@ -25,8 +30,8 @@ export const AuthProvider = ({ children }) => {
         const userJson = await userRes.json();
         setUser(userJson.data);
       } catch (error) {
-        // Not authenticated
         setUser(null);
+        localStorage.removeItem('auth_token');
       } finally {
         setLoading(false);
       }
@@ -39,30 +44,31 @@ export const AuthProvider = ({ children }) => {
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
 
-      // Perform login via raw fetch since SDK hangs
       const loginRes = await fetch(`${targetUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, mode: 'cookie' }),
+        body: JSON.stringify({ email, password }),
       });
+
+      if (!loginRes.ok) {
+        const errorText = await loginRes.text();
+        throw new Error(`Login failed: ${loginRes.status} ${errorText}`);
+      }
 
       const loginJson = await loginRes.json();
       const accessToken = loginJson.data?.access_token;
-      
-      // Give a small delay for cookie to be set (if working)
-      await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Use the token we just got, falling back to cookie if needed
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-      if (accessToken) {
-        headers['Authorization'] = `Bearer ${accessToken}`;
+      if (!accessToken) {
+        throw new Error('No access token received');
       }
 
+      localStorage.setItem('auth_token', accessToken);
+
       const userRes = await fetch(`${targetUrl}/users/me`, {
-        headers,
-        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
       });
 
       if (!userRes.ok) {
@@ -71,12 +77,10 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userJson = await userRes.json();
-      const response = userJson.data;
-
-      setUser(response);
+      setUser(userJson.data);
     } catch (error) {
       console.error('Login process failed:', error);
-      // Re-throw the error so that the calling component can handle it if necessary
+      localStorage.removeItem('auth_token');
       throw error;
     }
   };
@@ -84,20 +88,22 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
+      const token = localStorage.getItem('auth_token');
+
       const res = await fetch(`${targetUrl}/auth/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', 
+        body: JSON.stringify({ refresh_token: token })
       });
       
       if (!res.ok) {
-        // If 400/401, it likely means the session was already invalid or missing (Token Fallback mode)
-        console.warn(`Server logout returned ${res.status}. This is expected if cookies are blocked.`);
+        console.warn(`Server logout returned ${res.status}. This may be expected.`);
       }
     } catch (error) {
       console.error('Logout network request failed:', error);
     } finally {
       setUser(null);
+      localStorage.removeItem('auth_token');
     }
   };
 

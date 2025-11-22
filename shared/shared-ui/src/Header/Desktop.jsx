@@ -12,13 +12,17 @@ export function Desktop (){
         window.location.href = `${window.location.protocol}//${parts.join('.')}/login`;
     };
 
+    const logourFunc=()=>{
+        logout()
+    }
+
     return(
         <div className="desktop_header_div">
             <div className="desktop_header_links">
 
             </div>
             {user ? (
-                <Button text={'Logout'} button_type={'close'} func={logout}/>
+                <Button text={'Logout'} button_type={'close'} func={logourFunc}/>
             ) : (
                 <Button text={'Login'} button_type={'primary'} func={loginFunc}/>
             )}

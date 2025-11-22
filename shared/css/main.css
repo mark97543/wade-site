@@ -4,6 +4,7 @@
 :root{
     --color-background: #242424;
     --color-secondary:#484848;
+    --color-accent: #007BFF;
 
     /* Text colors */
     --color-text:rgba(255, 255, 255, 0.87);
@@ -15,6 +16,27 @@
     --color-button-warning: #f39c12; /* Use for non-destructive but cautious actions, like 'Edit' or 'Are you sure?' */
     --color-button-danger: #e74c3c;  /* Use for destructive actions, like 'Delete' or 'Cancel' */
     --color-button-text: #ffffff;    /* White text for high contrast */
+
+    /* Radius */
+    --radius-xsm:5px;
+    --radius-sm:10px;
+    --radius-med:15px;
+    --radius-lg:20px;
+
+    /* Spaceing */
+    --space-xsm:5px;
+    --space-sm:10px;
+    --space-med:15px;
+    --space-lg:20px;
+
+    /* Font Sizes */
+    --font-size-7:0.5rem;/* 8px */
+    --font-size-6:1rem;/* 16px */
+    --font-size-5:1.25rem;/* 20px */
+    --font-size-4:1.5rem;/* 24px */
+    --font-size-3:1.75rem;/* 28px */
+    --font-size-2:2rem;/* 32px */
+    --font-size-1:2.5rem;/* 40px */
 }
 
 /* -------------------------------------------------------------------------- */
@@ -25,4 +47,33 @@ body{
     background-color: var(--color-background);
     color: var(--color-text);
     font-family: var(--text-font);
+    font-size: 100%; /* 16px */
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             Header Adjustments                             */
+/* -------------------------------------------------------------------------- */
+
+h1{
+    font-size: var(--font-size-1);/* 40px */
+}
+
+h2{
+    font-size: var(--font-size-2);/* 32px */
+}
+
+h3{
+    font-size: var(--font-size-3); /* 28px */
+}
+
+h4{
+    font-size: var(--font-size-4);/* 24px */
+}
+
+h5{
+    font-size: var(--font-size-5);/* 20px */
+}
+
+h6{
+    font-size: var(--font-size-6);/* 16px */
 }

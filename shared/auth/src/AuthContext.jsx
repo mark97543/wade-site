@@ -86,35 +86,47 @@ export const AuthProvider = ({ children }) => {
   };
 
   const addUser = async (userData) => {
+    console.log('Attempting to add user with data:', userData);
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
       const token = localStorage.getItem('auth_token');
 
-      if (!token) {
-        throw new Error('Authentication token not found. Only authenticated users can add new users.');
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      // If a token exists, this is an admin creating a user. Add the Authorization header.
+      // If not, it's a public registration, and we don't send the header.
+      if (token) {
+        console.log('Auth token found, sending as authenticated request.');
+        headers['Authorization'] = `Bearer ${token}`;
+      } else {
+        console.log('No auth token found, sending as public registration request.');
       }
 
       const addUserRes = await fetch(`${targetUrl}/users`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: headers,
         body: JSON.stringify(userData),
       });
 
       if (!addUserRes.ok) {
         const errorText = await addUserRes.text();
+        console.error('Failed to add user. Status:', addUserRes.status, 'Response:', errorText);
         throw new Error(`Failed to add user: ${addUserRes.status} ${errorText}`);
       }
 
+      // It's possible Directus returns 204 No Content on public registration
+      if (addUserRes.status === 204) {
+        console.log('User created successfully with 204 No Content response.');
+        return {}; // Return an empty object to signify success without data
+      }
+
       const newUserJson = await addUserRes.json();
-      // You might want to handle the new user data, e.g., by adding it to a list of users if you're managing that in state.
-      // For now, we'll just return it.
+      console.log('User added successfully:', newUserJson.data);
       return newUserJson.data;
     } catch (error) {
       console.error('Add user process failed:', error);
-      // We don't want to log the user out if adding a user fails, so no token removal here.
       throw error;
     }
   };

@@ -76,6 +76,9 @@ services:
       - VITE_ASSETS_PROTOCOL=${VITE_ASSETS_PROTOCOL}
       - VITE_ASSETS_DOMAIN=${VITE_ASSETS_DOMAIN}
       - VITE_DIRECTUS_ADMIN_DOMAIN=https://${ADMIN_DOMAIN}
+      - VITE_PENDING_USER=${VITE_PENDING_USER}
+      - VITE_BASIC_USER=${VITE_BASIC_USER}
+      - VITE_ADMIN_USER=${VITE_ADMIN_USER}
       - WADE_UI_PATH=/shared-ui
     volumes:
       - ./apps/main-site:/app

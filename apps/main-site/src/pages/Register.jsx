@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { Button, Input } from "@wade/ui"
+import { useAuth } from "@wade/auth";
+
 
 
 export function Register(){
@@ -9,6 +11,62 @@ export function Register(){
     const [password, setPassword]=useState('')
     const [confirmPass, setConfirmPass]=useState('')
     const [message, setMessage]=useState('')
+
+    const {addUser, login} = useAuth()
+
+    const startingRole = import.meta.env.VITE_PENDING_USER
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (password !== confirmPass) {
+            setMessage("Passwords do not match. Please correct and try again.");
+            return;
+        }
+
+        if(!firstName){
+            setMessage("Please enter a first name")
+            return;
+        }
+
+        if(!email){
+            setMessage("Please enter an email")
+            return;
+        }
+
+        if(!password){
+            setMessage("Please enter a password")
+            return;
+        }
+
+        if(!confirmPass){
+            setMessage("Please confirm your password")
+            return;
+        }
+        setMessage(''); // Clear previous messages
+
+        try {
+            const newUser = {
+                first_name: firstName,
+                email: email,
+                password: password,
+                status: 'active',
+                role: startingRole
+                // Depending on your Directus setup, you may need to provide a role ID here
+                // for new users, e.g., role: 'your-public-role-uuid'
+            };
+            await addUser(newUser);
+            await login(email, password);
+            setMessage("Registration successful! You are now logged in.");
+            setFirstName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPass('');
+        } catch (err) {
+            setMessage('Registration failed. The email might already be in use or login failed.');
+            console.error("Registration error:", err);
+        }
+    };
     
     useEffect(() => {
         // Only check if the user has started typing the confirmation
@@ -51,13 +109,13 @@ export function Register(){
                 labelText={'Confirm Password'}
                 type={'password'}
                 id={'password2'}
-                valueOf={confirmPass}
+                value={confirmPass}
                 change={(e)=>setConfirmPass(e.target.value)}
             />
             
             <p className="reg_message">{message}</p>
 
-            <Button text={'Register'} button_type={'primary'}/>
+            <Button text={'Register'} button_type={'primary'} func={handleSubmit}/>
         </div>
     )
 

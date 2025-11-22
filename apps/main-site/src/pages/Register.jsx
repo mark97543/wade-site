@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react"
 import { Button, Input } from "@wade/ui"
 import { useAuth } from "@wade/auth";
+import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -11,8 +13,9 @@ export function Register(){
     const [password, setPassword]=useState('')
     const [confirmPass, setConfirmPass]=useState('')
     const [message, setMessage]=useState('')
-
-    const {addUser, login} = useAuth()
+    const navigate = useNavigate();
+    
+    const {addUser, login,user} = useAuth()
 
     const startingRole = import.meta.env.VITE_PENDING_USER
 
@@ -76,6 +79,12 @@ export function Register(){
             setMessage("") // Clear message if they match or confirm is empty
         }
     }, [password, confirmPass])
+
+    useEffect(() => {
+        if(user){
+            navigate('/pending')
+        }
+    }, [user])
 
 
     return(

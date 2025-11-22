@@ -1,0 +1,64 @@
+/* -------------------------------------------------------------------------- */
+/*                                Ham Animation                               */
+/* -------------------------------------------------------------------------- */
+
+.ham_menu{
+  margin-right: 5px;
+  margin-left: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: var(--color-accent);
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.change .bar1 {
+  transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+  transform: translate(0, -11px) rotate(45deg);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Menu Dropdown                               */
+/* -------------------------------------------------------------------------- */
+
+.ham_dropdown {
+  display: none;
+  border-radius: var(--radius-med);
+  position: absolute;
+  top: 45px;
+  right: 0px;
+  background-color: var( --color-secondary);
+  padding: 10px;
+  width: 50vw;
+}
+
+.ham_dropdown a {
+  text-align: left !important;
+}
+
+/* Show the dropdown when the container has the 'change' class */
+.ham_container.change + .ham_dropdown {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.menu_divider{
+    height: 1px; /* The thickness of your line */
+    background-color: var(--color-background); /* Your preferred color */
+    margin: 10px 0; /* Space above and below the line */
+    width: 100%; /* Adjust width as needed */
+    margin-left: auto; /* Center the line if width is less than 100% */
+    margin-right: auto;
+}

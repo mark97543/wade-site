@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useAuth } from "@wade/auth";
 import { Button } from "../Button/Button"
+import { useNavigate } from "react-router-dom";
+
 
 
 export function Desktop (){
 
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    
 
     const loginFunc = () => {
         const parts = window.location.hostname.split('.').slice(-2);
@@ -14,6 +18,7 @@ export function Desktop (){
 
     const logourFunc=()=>{
         logout()
+        navigate('/')
     }
 
     return(

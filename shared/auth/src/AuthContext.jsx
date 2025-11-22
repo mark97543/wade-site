@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const addUser = async (userData) => {
-    console.log('Attempting to add user with data:', userData);
+    //console.log('Attempting to add user with data:', userData);
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
       const token = localStorage.getItem('auth_token');
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }) => {
       // If a token exists, this is an admin creating a user. Add the Authorization header.
       // If not, it's a public registration, and we don't send the header.
       if (token) {
-        console.log('Auth token found, sending as authenticated request.');
+        //console.log('Auth token found, sending as authenticated request.');
         headers['Authorization'] = `Bearer ${token}`;
       } else {
         console.log('No auth token found, sending as public registration request.');

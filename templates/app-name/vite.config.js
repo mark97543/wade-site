@@ -13,11 +13,12 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 5173,
       strictPort: true,
-      allowedHosts: true,
+      // 1. Fix for the "www" blockage (Optional locally, but good to keep consistent)
+      allowedHosts: true, 
       hmr: {
-        clientPort: 443,
+        clientPort: 443, // If you use HTTPS locally via Caddy, keep this. If localhost:5173, remove or adjust.
       },
-      // Add this to help Vite find the dependency
+      // 2. Fix for accessing files outside /app
       fs: {
         allow: ['..'],
       },
@@ -27,12 +28,10 @@ export default defineConfig(({ mode }) => {
         '@wade/ui': fileURLToPath(new URL(wadeUiPath, import.meta.url)),
         '@wade/auth': fileURLToPath(new URL(wadeAuthPath, import.meta.url)),
         
-        // --- THE FIX IS HERE ---
-        // Force @directus/sdk to resolve to the local node_modules, not the shared folder
+        // 3. CRITICAL FIX: Force Shared to use the App's node_modules
         '@directus/sdk': fileURLToPath(new URL('./node_modules/@directus/sdk', import.meta.url)),
       },
     },
-    // Ensure Vite optimizes this dependency even though it's inside a linked folder
     optimizeDeps: {
       include: ['@directus/sdk'],
     },

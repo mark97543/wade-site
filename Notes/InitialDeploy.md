@@ -1,10 +1,13 @@
 # Initial Deployment Guide
 
-This guide covers the steps to deploy the Wade-USA Monolith to a fresh Digital Ocean Droplet.
+This guide provides a comprehensive walkthrough for deploying the Wade-USA Monolith application to a new Digital Ocean Droplet. It covers everything from server creation and DNS setup to application deployment and verification.
 
 ## Prerequisites
-- Digital Ocean Account
-- Domain Name (e.g., `wade-usa.com`) pointing to Digital Ocean nameservers or managed via A records.
+- **Digital Ocean Account**: You will need an active account to create the necessary infrastructure.
+- **Domain Name**: A registered domain name (e.g., `wade-usa.com`). For simplicity, this guide assumes you will manage your DNS via Digital Ocean, but you can use any DNS provider.
+- **SSH Key**: A public/private SSH key pair on your local machine for secure access to the server.
+
+---
 
 ## Step 1: Create Droplet
 1.  Log in to Digital Ocean.
@@ -20,13 +23,25 @@ This guide covers the steps to deploy the Wade-USA Monolith to a fresh Digital O
 
 ## Step 2: DNS Configuration
 1.  Copy the **IP Address** of your new Droplet.
-2.  Go to your DNS provider (e.g., Namecheap, GoDaddy, or Digital Ocean Networking).
-3.  Create **A Records**:
-    -   `@` -> `YOUR_DROPLET_IP`
-    -   `*` -> `YOUR_DROPLET_IP` (Wildcard for subdomains like `admin`, `budget`, etc.)
+2.  Navigate to the DNS management section of your domain provider (e.g., Namecheap, GoDaddy, or Digital Ocean Networking).
+3.  Create two **A Records** to point your domain and subdomains to the server's IP address.
 
+    -   **Root Domain Record**: This points `wade-usa.com` to your server.
+        -   **Type**: `A`
+        -   **Hostname**: `@`
+        -   **Value**: `YOUR_DROPLET_IP`
+
+    -   **Wildcard Subdomain Record**: This points `*.wade-usa.com` (e.g., `admin.wade-usa.com`, `budget.wade-usa.com`, etc.) to your server. This saves you from creating a new record for every service.
+        -   **Type**: `A`
+        -   **Hostname**: `*`
+        -   **Value**: `YOUR_DROPLET_IP`
+
+    Your Caddy service will automatically read the incoming domain and route traffic to the correct application container (Directus, Main Site, etc.). No changes are needed in your project files for this to work.
 ## Step 3: Server Setup
 SSH into your server:
+
+> **Note:** It may take a minute or two for the server to be ready for connections after creation.
+
 ```bash
 ssh root@YOUR_DROPLET_IP
 ```

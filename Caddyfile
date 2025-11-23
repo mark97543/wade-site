@@ -1,15 +1,8 @@
-# Global Options
-{
-	# Use a local CA for trusted local development certificates
-	local_certs
-}
-
 # 1. Static Asset Depot
 {$ASSETS_DOMAIN} {
 	root * /data/shared
 	file_server
 	header Access-Control-Allow-Origin "*"
-	# Caddy will automatically use the local_certs from the global block
 }
 
 # 2. Main Website

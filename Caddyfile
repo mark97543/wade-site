@@ -1,3 +1,9 @@
+# Global Options
+{
+	# Uncomment for testing to avoid rate limits
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
 # 1. Static Asset Depot
 {$ASSETS_DOMAIN} {
 	root * /data/shared

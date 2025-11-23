@@ -9,7 +9,7 @@
 			"**/.git": true,
 			"**/data":true,
 			"**/node_modules": true,
-			"**/backend":true,
+			"**/backend":false,
 			"**/root.crt":true
 		},
 		"search.exclude": {

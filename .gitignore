@@ -1,26 +1,43 @@
-# ## .gitignore ##
-
-# --- Secrets ---
-# Ignore environment variables and secrets. This is critical for security.
+# --- 1. Secrets & Environment (CRITICAL) ---
 .env
+.env.*
+!.env.example
+# Ignore the SQL dumps we created manually (Contains real user data!)
+*.sql
+*.dump
+import.sql
+full_access_dump.sql
+roles_and_perms.sql
 
-# --- Dependencies ---
-# Ignore local packages for all applications.
+# --- 2. Dependencies ---
 node_modules/
 apps/*/node_modules/
+package-lock.json # Keep this! (But if you have conflicts often, some teams ignore it. For solo, KEEP IT.)
 
-# --- Build Artifacts ---
-# Ignore Vite/React build output directories.
+# --- 3. Build Artifacts ---
+dist/
+build/
 apps/*/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# --- Data & Uploads ---
-# Ignore persistent data volumes and user-uploaded content.
-data/
-backend/uploads/
+# --- 4. Directus & Database Data ---
+# Ignore the actual uploads (images/videos) but keep the folder
+backend/uploads/*
+!backend/uploads/.gitkeep
 
-# --- Logs ---
-*.log
+# Ignore persistent data folders (if you ever map them locally)
+postgres_data/
+caddy_data/
+directus_extensions/cache/
 
-# --- OS & IDE Specific ---
+# --- 5. Operating System Junk ---
 .DS_Store
+Thumbs.db
 .vscode/
+.idea/
+
+# --- 6. Exceptions (Things we WANT to track) ---
+# We specifically want to track the schema snapshot
+!backend/extensions/snapshot.yaml

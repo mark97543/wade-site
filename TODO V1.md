@@ -17,11 +17,12 @@
 - [X] Build Main Site
   - [X] Need to build register page
   - [X] Need to build 404 page
-- [ ] Deploy to Digital Ocean
+- [X] Deploy to Digital Ocean
 
 ## Version 2
 - [X]Add Security
 - [ ] Add Budget Site
+- [X] Add Icon to tab bar
 - [ ] Add Project Tock Widget
 - [ ] Deploy
 
@@ -32,7 +33,6 @@
 ## Version 4 (Beutify)
 - [ ] 404 Page Grafics
 -  [ ] Landing Page
--  [ ] Countdown
 -  [ ] Select
 -  [ ] Checkbox
 -  [ ] Card Components

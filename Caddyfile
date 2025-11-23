@@ -12,7 +12,7 @@
 }
 
 # 2. Main Website
-{$ROOT_DOMAIN} {
+{$ROOT_DOMAIN}, www.{$ROOT_DOMAIN} {
     reverse_proxy main-site:5173
 }
 

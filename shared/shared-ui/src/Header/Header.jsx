@@ -41,7 +41,7 @@ export function Header (){
     return(
         <div className='header_background'>
             <div className='header-logo-div'>
-                <a href="/" className='header_logo'>M+S</a>
+                <a href={`${window.location.protocol}//${rootDomain}/`} className='header_logo'>M+S</a>
             </div>
             
             <Desktop lastItem={lastItem} listItem={listItems}/>

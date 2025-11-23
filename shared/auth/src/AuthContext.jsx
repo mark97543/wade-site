@@ -3,6 +3,27 @@ import { directus } from './directus'; // We will create this API client next
 
 const AuthContext = createContext(null);
 
+// Helper functions for Cookie Management
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+};
+
+const setCookie = (name, value, days = 7) => {
+  const rootDomain = import.meta.env.VITE_ROOT_DOMAIN;
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  // Important: Domain must start with a dot to be shared across subdomains
+  // e.g., .wade-usa.com
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; domain=.${rootDomain}; SameSite=Lax`;
+};
+
+const removeCookie = (name) => {
+  const rootDomain = import.meta.env.VITE_ROOT_DOMAIN;
+  document.cookie = `${name}=; path=/; domain=.${rootDomain}; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('auth_token');
+        const token = getCookie('auth_token');
         if (!token) {
           throw new Error('No auth token found');
         }
@@ -31,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userJson.data);
       } catch (error) {
         setUser(null);
-        localStorage.removeItem('auth_token');
+        removeCookie('auth_token');
       } finally {
         setLoading(false);
       }
@@ -62,7 +83,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error('No access token received');
       }
 
-      localStorage.setItem('auth_token', accessToken);
+      setCookie('auth_token', accessToken);
 
       const userRes = await fetch(`${targetUrl}/users/me`, {
         headers: {
@@ -80,7 +101,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userJson.data);
     } catch (error) {
       console.error('Login process failed:', error);
-      localStorage.removeItem('auth_token');
+      removeCookie('auth_token');
       throw error;
     }
   };
@@ -89,7 +110,7 @@ export const AuthProvider = ({ children }) => {
     //console.log('Attempting to add user with data:', userData);
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
-      const token = localStorage.getItem('auth_token');
+      const token = getCookie('auth_token');
 
       const headers = {
         'Content-Type': 'application/json',
@@ -134,7 +155,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const targetUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
-      const token = localStorage.getItem('auth_token');
+      const token = getCookie('auth_token');
 
       const res = await fetch(`${targetUrl}/auth/logout`, {
         method: 'POST',
@@ -149,7 +170,7 @@ export const AuthProvider = ({ children }) => {
       console.error('Logout network request failed:', error);
     } finally {
       setUser(null);
-      localStorage.removeItem('auth_token');
+      removeCookie('auth_token');
     }
   };
 

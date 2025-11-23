@@ -52,6 +52,7 @@
 .desktop_header_links a:hover {
     background-color: var(--color-link-visited);
     color: var(--color-text);
+    cursor: pointer;
 }
 
 /* -------------------------------------------------------------------------- */

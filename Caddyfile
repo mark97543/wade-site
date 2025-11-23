@@ -12,10 +12,15 @@
 }
 
 # 2. Main Website
-{$ROOT_DOMAIN}, www.{$ROOT_DOMAIN} {
-    reverse_proxy main-site:5173
+# A. Catch the "Naked" domain and forward it to WWW
+{$ROOT_DOMAIN} {
+    redir https://www.{$ROOT_DOMAIN}{uri}
 }
 
+# B. Serve the actual site on WWW
+www.{$ROOT_DOMAIN} {
+    reverse_proxy main-site:5173
+}
 # 3. Backend Admin Panel
 {$ADMIN_DOMAIN} {
     reverse_proxy directus:8055

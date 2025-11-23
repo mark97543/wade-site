@@ -13,6 +13,8 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 5173,
       strictPort: true,
+      // Allow the "www" domain to pass through
+      allowedHosts: true, 
       hmr: {
         clientPort: 443,
       },
@@ -21,7 +23,6 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@wade/ui': fileURLToPath(new URL(wadeUiPath, import.meta.url)),
         '@wade/auth': fileURLToPath(new URL(wadeAuthPath, import.meta.url)),
-        
       },
     },
   }

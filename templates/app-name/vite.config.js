@@ -5,6 +5,7 @@ import { fileURLToPath, URL } from 'url'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const wadeUiPath = env.WADE_UI_PATH || '../../shared/shared-ui'
+  const wadeAuthPath = env.WADE_AUTH_PATH || '../../shared/auth/src/index.js'
 
   return {
     plugins: [react()],
@@ -12,6 +13,8 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: 5173,
       strictPort: true,
+      // Allow the "www" domain to pass through
+      allowedHosts: true, 
       hmr: {
         clientPort: 443,
       },
@@ -19,6 +22,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@wade/ui': fileURLToPath(new URL(wadeUiPath, import.meta.url)),
+        '@wade/auth': fileURLToPath(new URL(wadeAuthPath, import.meta.url)),
       },
     },
   }

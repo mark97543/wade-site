@@ -3,6 +3,8 @@ button{
     height: 40px;
     cursor: pointer;
     min-width: 100px;
+    font-size: var(--font-size-6);
+    border:none;
 }
 
 .primary_button{

@@ -1,0 +1,96 @@
+/* -------------------------------------------------------------------------- */
+/*                                  Top Page                                  */
+/* -------------------------------------------------------------------------- */
+
+.top_page_wrapper{
+    display: flex;
+    flex-direction: row;
+    margin-top: var(--space-lg);
+    width: 100%;
+    height: calc(100vh - 150px - var(--space-lg));
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Desktop Layout                               */
+/* -------------------------------------------------------------------------- */
+
+.budget_left_panel{
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-med);
+    padding: var(--space-sm);
+    height: 100%;
+    width: 15%;
+}
+
+.budget_right_panel{
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-med);
+    padding: var(--space-sm);
+    margin-left: var(--space-lg);
+    width: 85%;
+    height: 100%;
+}
+
+.budget_desktop_layout{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    margin-right: var(--space-lg);
+    margin-left: var(--space-lg);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                Mobile Layout                               */
+/* -------------------------------------------------------------------------- */
+
+.budget_mobile_layout{
+    display: none;
+}
+
+.budget_mobile_top{
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-med);
+    width: 100%;
+    height: 10%;
+}
+
+.budget_mobile_middle{
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-med);
+    width: 100%;
+    height: 80%;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.budget_mobile_bottom{
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-med);
+    width: 100%;
+    height: 10%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            Screen Size Controls                            */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width:800px){
+    .budget_desktop_layout{
+        display: none;
+    }
+
+    .budget_mobile_layout{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin-right: var(--space-sm);
+        margin-left: var(--space-sm);
+
+    }
+
+}

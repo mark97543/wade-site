@@ -31,6 +31,7 @@
     grid-template-columns: auto 5.5rem;
     grid-template-rows: auto;
     width: 100%;
+    margin-right: var(--space-lg);
 }
 
 .desktop_header_links{

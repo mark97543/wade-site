@@ -1,7 +1,7 @@
 import {Routes, Route} from "react-router-dom"
 import { Header } from "@wade/ui"
 import { ProtectedRoute } from '@wade/auth';
-import {TopPage} from "./pages/1_TopPage.jsx";
+import {TopPage} from "./pages/TopPage.jsx";
 
 
 

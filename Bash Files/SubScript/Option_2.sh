@@ -16,6 +16,8 @@ do
     echo "2) Stop Containers"
     echo "3) Restart Containers"
     echo "4) Refresh Local SSL Certificate (Caddy)"
+    echo "5) Caddy Nuke"
+    echo "6) Docker Force Rebuild (No Table Loss)"
     echo "q) Return to Main Menu"
     echo ""
 
@@ -81,13 +83,42 @@ do
                 pkill -f chrome || true
                 sleep 2
 
-                # Open tabs
-                google-chrome-stable "https://wade.localhost" "https://admin.localhost" &
+                # Open tabs in the system's default browser
+                xdg-open "https://wade.localhost"
+                xdg-open "https://admin.localhost" &
                 
                 echo "Certificate refresh process complete."
             else
                 echo "Operation cancelled."
             fi
+            read -p "Press [Enter] to continue..."
+            ;;
+        5) 
+            echo "Nuking Caddy by removing its data volume and rebuilding..."
+            read -p "This is a destructive action for Caddy. Are you sure? (y/n): " CONFIRM
+            if [[ "$CONFIRM" == "y" || "$CONFIRM" == "Y" ]]; then
+                echo "Stopping and removing all containers..."
+                docker compose down
+
+                # Dynamically get the project name to find the correct volume
+                PROJECT_NAME=$(basename "$PWD")
+                CADDY_VOLUME="${PROJECT_NAME}_caddy_data"
+
+                echo "Removing Caddy data volume: $CADDY_VOLUME"
+                docker volume rm "$CADDY_VOLUME"
+
+                echo "Building and starting all containers..."
+                docker compose up -d --build
+                echo "Caddy has been reset."
+            else
+                echo "Operation cancelled."
+            fi
+            read -p "Press [Enter] to continue..."
+            ;;
+        6)
+            echo "Nuking Docker: Forcing a rebuild of all images and recreation of containers..."
+            docker compose down
+            docker compose up -d --build --force-recreate
             read -p "Press [Enter] to continue..."
             ;;
         q)

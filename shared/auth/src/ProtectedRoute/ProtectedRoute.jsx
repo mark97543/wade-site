@@ -12,23 +12,20 @@ export const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    const hostname = window.location.hostname;
+    const isSubdomain = hostname.split('.').length > 2 && hostname !== 'localhost';
+
+    if (isSubdomain) {
+      // For a subdomain like 'budget.wade.com', redirect to 'wade.com/login'
+      const mainDomain = hostname.split('.').slice(-2).join('.');
+      const loginUrl = `//${mainDomain}/login`;
+      window.location.replace(loginUrl); // Perform a full redirect
+      return null; // Render nothing while redirecting
+    }
+
+    return <Navigate to="/login" state={{ from: location }} replace />; // Standard local redirect
   }
 
-  // --- REMOVE ALL THIS LOGIC ABOUT 'isPending' AND 'isPendingPage' ---
-  /*
-  const isPending = user?.status === 'pending';
-  const isPendingPage = location.pathname === '/pending';
-
-  if (isPending && !isPendingPage) {
-    return <Navigate to="/pending" replace />;
-  }
-
-  if (!isPending && isPendingPage) {
-    return <Navigate to="/" replace />;
-  }
-  */
-  // ------------------------------------------------------------------
 
   // Keep the role check (optional)
   if (allowedRoles.length > 0) {
@@ -37,7 +34,16 @@ export const ProtectedRoute = ({ children, allowedRoles = [] }) => {
     
     // Choose the value that matches how you define allowedRoles in App.js (UUIDs)
     if (!allowedRoles.includes(userRoleId)) { 
-      return <Navigate to="/unauthorized" replace />;
+      const hostname = window.location.hostname;
+      const isSubdomain = hostname.split('.').length > 2 && hostname !== 'localhost';
+
+      if (isSubdomain) {
+        const mainDomain = hostname.split('.').slice(-2).join('.');
+        const unauthorizedUrl = `//${mainDomain}/unauthorized`;
+        window.location.replace(unauthorizedUrl);
+        return null;
+      }
+      return <Navigate to="/unauthorized" replace />; // Standard local redirect
     }
   }
 

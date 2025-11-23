@@ -25,3 +25,9 @@ www.{$ROOT_DOMAIN} {
 {$ADMIN_DOMAIN} {
     reverse_proxy directus:8055
 }
+
+# 4. Budget Site
+
+{$BUDGET_DOMAIN} {
+    reverse_proxy budget-site:5173
+}

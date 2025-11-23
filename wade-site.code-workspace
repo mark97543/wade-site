@@ -9,8 +9,12 @@
 			"**/.git": true,
 			"**/data":true,
 			"**/node_modules": true,
-			"**/backend":false,
-			"**/root.crt":true
+			"**/backend":true,
+			"**/root.crt":true,
+			"**/ready_for_server.sql":true,
+			"**/roles_and_perms.sql":true,
+			"**/full_access_dump.sql":true,
+			"**/.env": false
 		},
 		"search.exclude": {
 			"**/node_modules": true

@@ -88,6 +88,25 @@ services:
       - ./shared/auth:/shared/auth
     networks:
       - wade-network
+  budget-site:
+    build: ./apps/budget-site
+    container_name: budget-site
+    restart: unless-stopped
+    environment:
+      - VITE_ASSETS_PROTOCOL=${VITE_ASSETS_PROTOCOL}
+      - VITE_ASSETS_DOMAIN=${VITE_ASSETS_DOMAIN}
+      - VITE_DIRECTUS_ADMIN_DOMAIN=https://${ADMIN_DOMAIN}
+      - VITE_PENDING_USER=${VITE_PENDING_USER}
+      - VITE_BASIC_USER=${VITE_BASIC_USER}
+      - VITE_ADMIN_USER=${VITE_ADMIN_USER}
+      - WADE_UI_PATH=/shared-ui
+    volumes:
+      - ./apps/budget-site:/app
+      - /app/node_modules
+      - ./shared/shared-ui:/shared-ui
+      - ./shared/auth:/shared/auth
+    networks:
+      - wade-network
 networks:
   wade-network:
     driver: bridge

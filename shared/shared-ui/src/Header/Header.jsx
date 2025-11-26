@@ -15,7 +15,7 @@ export function Header (){
     const loginUrl = `${rootDomain}/login`
     const budgetURL=`${window.location.protocol}//${import.meta.env.VITE_BUDGET_DOMAIN}`
 
-    console.log(budgetURL)
+    //console.log(budgetURL)
 
     const loginFunc = () => {
         window.location.href = `${window.location.protocol}//${loginUrl}`;

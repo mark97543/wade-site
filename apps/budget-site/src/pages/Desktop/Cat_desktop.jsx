@@ -5,6 +5,9 @@ function Cat_desktop({selected}) {
   const [newItem, setNewItem] = useState('')
   const [newNote, setNewNote] = useState('')
 
+  const addItemButton =()=>{
+    console.log("Need to build this function")
+  }
 
 
   return (
@@ -14,7 +17,7 @@ function Cat_desktop({selected}) {
           <div className='cat_desktop_add_items'>
               <Input labelText={'Add New Item'} type={'text'} id={'add_item'} value={newItem} change={(e)=>setNewItem(e.target.value)}/>
               <Input labelText={'Add New note'} type={'text'} id={'add_note'} value={newNote} change={(e)=>setNewNote(e.target.value)}/>
-              <Button text={'Add Item'} button_type={'primary'} />
+              <Button text={'Add Item'} button_type={'primary'}  func={addItemButton}/>
           </div>
 
         </div>

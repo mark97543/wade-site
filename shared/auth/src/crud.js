@@ -1,5 +1,19 @@
 import { directus } from './directus';
 import { readItems, readItem, createItem, updateItem, deleteItem as sdkDeleteItem } from '@directus/sdk';
+import { withToken } from '@directus/sdk';
+
+
+const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
+  
+  const getAuthenticatedClient = () => {
+    const token = getCookie('auth_token');
+    return token ? directus.with(withToken(token)) : directus;
+  }
 
 /**
  * Get items from a collection
@@ -8,7 +22,8 @@ import { readItems, readItem, createItem, updateItem, deleteItem as sdkDeleteIte
  * @returns {Promise<Array>} - The list of items
  */
 export const getItems = async (collection, query = {}) => {
-  return await directus.request(readItems(collection, query));
+  const client = getAuthenticatedClient();
+  return await client.request(readItems(collection, query));
 };
 
 /**
@@ -19,7 +34,8 @@ export const getItems = async (collection, query = {}) => {
  * @returns {Promise<object>} - The item
  */
 export const getItem = async (collection, id, query = {}) => {
-  return await directus.request(readItem(collection, id, query));
+    const client = getAuthenticatedClient();
+    return await client.request(readItem(collection, id, query));
 };
 
 /**
@@ -29,7 +45,8 @@ export const getItem = async (collection, id, query = {}) => {
  * @returns {Promise<object>} - The created item
  */
 export const createNewItem = async (collection, data) => {
-  return await directus.request(createItem(collection, data));
+    const client = getAuthenticatedClient();
+    return await client.request(createItem(collection, data));
 };
 
 /**
@@ -40,7 +57,8 @@ export const createNewItem = async (collection, data) => {
  * @returns {Promise<object>} - The updated item
  */
 export const updateExistingItem = async (collection, id, data) => {
-  return await directus.request(updateItem(collection, id, data));
+    const client = getAuthenticatedClient();
+    return await client.request(updateItem(collection, id, data));
 };
 
 /**
@@ -50,5 +68,6 @@ export const updateExistingItem = async (collection, id, data) => {
  * @returns {Promise<void>}
  */
 export const deleteExistingItem = async (collection, id) => {
-  return await directus.request(sdkDeleteItem(collection, id));
+    const client = getAuthenticatedClient();
+    return await client.request(sdkDeleteItem(collection, id));
 };

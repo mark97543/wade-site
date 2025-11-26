@@ -22,7 +22,9 @@
     border-radius: var(--radius-med);
     padding: var(--space-sm);
     height: 100%;
-    width: 15%;
+    width: 20%;
+    display: grid;
+    grid-template-rows: 4rem 4rem 4rem 4rem 4rem 4rem auto;
 }
 
 .budget_right_panel{
@@ -30,7 +32,7 @@
     border-radius: var(--radius-med);
     padding: var(--space-sm);
     margin-left: var(--space-lg);
-    width: 85%;
+    width: 100%;
     height: 100%;
 }
 
@@ -42,6 +44,33 @@
     margin-right: var(--space-lg);
     margin-left: var(--space-lg);
 }
+
+.budget_left_panel h6{
+    text-align: left;
+    margin: 0px;
+    padding-left: 10px;
+
+}
+
+.budget_left_panel div{
+    display: grid;
+    grid-template-columns: 2rem auto;
+    align-items: center;
+    width: 100%;
+    border-radius: var(--radius-med);
+}
+
+.budget_left_panel img{
+    width: 2rem;
+    height: 2rem;
+    justify-self: center;
+}
+
+.budget_left_panel div:hover{
+    background-color: var(--color-link-visited);
+}
+
+
 
 /* -------------------------------------------------------------------------- */
 /*                                Mobile Layout                               */

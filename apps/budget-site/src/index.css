@@ -24,7 +24,7 @@
     height: 100%;
     width: 20%;
     display: grid;
-    grid-template-rows: 4rem 4rem 4rem 4rem 4rem 4rem auto;
+    grid-template-rows: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem auto;
 }
 
 .budget_right_panel{
@@ -70,8 +70,17 @@
     background-color: var(--color-link-visited);
 }
 
+.budget_desktop_hovered{
+    background-color: var(--color-link-visited);
+}
 
+.budget_desktop_not_selected{
+    display: none;
+}
 
+.budget_desktop_selected{
+    display: contents;
+}
 /* -------------------------------------------------------------------------- */
 /*                                Mobile Layout                               */
 /* -------------------------------------------------------------------------- */

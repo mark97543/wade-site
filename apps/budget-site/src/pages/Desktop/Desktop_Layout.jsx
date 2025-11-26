@@ -1,9 +1,16 @@
 import React, {useState} from "react"
+import Dashboard_desktop from "./Dashboard_desktop"
+import Budget_desktop from "./Budget_desktop"
+import Trans_desktop from "./Trans_desktop"
+import Debt_desktop from "./Debt_desktop"
+import Goals_desktop from "./Goals_desktop"
+import Settings_desktop from "./Settings_desktop"
+import Cat_desktop from "./Cat_desktop"
 
 
 export function Desktop_Layout(){
 
-    const [selected, setSelected]=useState(1)
+    const [selected, setSelected]=useState("dashboard")
 
     const selectionClicked = (number)=>{
         setSelected(number)
@@ -16,43 +23,50 @@ export function Desktop_Layout(){
 
             <div className="budget_left_panel">
                 <div 
-                    className={selected === 1 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(1)}
+                    className={selected === "dashboard" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("dashboard")}
                     >
                         <img src="./dashboard.png"/>
                         <h6>Dashboard</h6>
                 </div>
                 <div 
-                    className={selected === 2 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(2)}
+                    className={selected === "budget" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("budget")}
                     >
                         <img src="./budget.png"/>
                         <h6>Budget</h6>
                 </div>
                 <div 
-                    className={selected === 3 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(3)}
+                    className={selected === "trans" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("trans")}
                     >
                         <img src="./transaction.png"/>
                         <h6>Transactions</h6>
                 </div>
                 <div 
-                    className={selected === 4 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(4)}
+                    className={selected === "debt" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("debt")}
                     >
                         <img src="./debt.png"/>
                         <h6>Debt</h6>
                 </div>
                 <div 
-                    className={selected === 5 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(5)}
+                    className={selected === "goals" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("goals")}
                     >
                         <img src="./goals.png"/>
                         <h6>Goals</h6>
                 </div>
                 <div 
-                    className={selected === 6 ? "budget_desktop_hovered" : ""}
-                    onClick={()=>selectionClicked(6)}
+                    className={selected === "cat" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("cat")}
+                    >
+                        <img src="./Cat.png"/>
+                        <h6>Budget Catagories</h6>
+                </div>               
+                <div 
+                    className={selected === "settings" ? "budget_desktop_hovered" : ""}
+                    onClick={()=>selectionClicked("settings")}
                     >
                         <img src="./settings.png"/>
                         <h6>Settings</h6>
@@ -61,7 +75,13 @@ export function Desktop_Layout(){
 
 
             <div className="budget_right_panel">
-                <h2>Item View Port</h2>
+                <Dashboard_desktop selected={selected} />
+                <Budget_desktop selected={selected}/>
+                <Trans_desktop selected={selected}/>
+                <Debt_desktop selected={selected}/>
+                <Goals_desktop selected={selected}/>
+                <Cat_desktop selected={selected}/>
+                <Settings_desktop selected={selected}/>
             </div>
         </div>
     )

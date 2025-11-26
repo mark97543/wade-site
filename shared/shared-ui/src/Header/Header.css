@@ -56,9 +56,8 @@
     cursor: pointer;
 }
 
-.budget_desktop_hovered{
-    background-color: var(--color-link-visited);
-}
+
+
 
 /* -------------------------------------------------------------------------- */
 /*                               Mobile Formats                               */

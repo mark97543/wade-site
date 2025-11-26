@@ -5,6 +5,9 @@ button{
     min-width: 100px;
     font-size: var(--font-size-6);
     border:none;
+
+    /* ANIMATION MAGIC */
+    transition: transform 0.1s ease, filter 0.2s;
 }
 
 .primary_button{
@@ -15,3 +18,14 @@ button{
     background-color: var(--color-button-danger);
 }
 
+
+/* Hover Effect: Lifts slightly and brightens */
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(110%);
+}
+
+/* Click Effect: Shrinks like a real button */
+button:active {
+    transform: scale(0.90) translateY(0);
+}

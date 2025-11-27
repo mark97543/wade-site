@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Input, Button} from '@wade/ui'
-import { getItems, createNewItem } from '@wade/auth'
+import { getItems, createNewItem, deleteExistingItem } from '@wade/auth'
 
 function Cat_desktop({selected}) {
   // 1. Configuration: Make sure this matches your Directus Collection Name exactly
@@ -11,6 +11,7 @@ function Cat_desktop({selected}) {
   const [newItem, setNewItem] = useState('')
   const [newNote, setNewNote] = useState('')
   const [loading, setLoading] = useState(true)
+  const [editing, setEditing]=useState()
 
   // 3. The Trigger: Fetch data when the component mounts
   useEffect(() => {
@@ -58,6 +59,21 @@ function Cat_desktop({selected}) {
     }
   }
 
+  const deleteItem = async (id)=>{
+    // console.log('Item ID: ', id)
+    try{
+      await deleteExistingItem(collectionName,id);
+      fetchCategories();
+    }catch(error){
+      console.error('Failed to Delete Item, ', error)
+      alert("Error Deleteing Item Check Console")
+    }
+  }
+
+  const editMode = (id)=>{
+    console.log('Editing: ',id)
+  }
+
   return (
     <div className={selected === "cat" ? "budget_desktop_selected" : "budget_desktop_not_selected"} >
         <div className='cat_desktop_wrapper'>
@@ -90,8 +106,8 @@ function Cat_desktop({selected}) {
                         <td>{cat.category}</td>
                         <td>{cat.note}</td>
                         <td>
-                          <button className='cat_button'><img src='./pencil.png'/></button>
-                          <button className='cat_button'><img src='./delete.png'/></button>
+                          <button className='cat_button' onClick={(e)=>editMode(cat.id)}><img src='./pencil.png'/></button>
+                          <button className='cat_button'  onClick={(e)=>deleteItem(cat.id)}><img src='./delete.png'/></button>
                         </td>
                       </tr>
                     ))}

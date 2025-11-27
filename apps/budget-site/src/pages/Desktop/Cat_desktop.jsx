@@ -75,13 +75,29 @@ function Cat_desktop({selected}) {
             {loading ? (
               <p>Loading...</p>
             ) : (
-              <ul>
-                {categories.map((cat) => (
-                  <li key={cat.id}>
-                    <strong>{cat.category}</strong> - {cat.note}
-                  </li>
-                ))}
-              </ul>
+              <div className="table-container">
+                <table className='standard-table'>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Note</th>
+                      <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {categories.map((cat) => (
+                      <tr key={cat.id}>
+                        <td>{cat.category}</td>
+                        <td>{cat.note}</td>
+                        <td>
+                          <button className='cat_button'><img src='./pencil.png'/></button>
+                          <button className='cat_button'><img src='./delete.png'/></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 

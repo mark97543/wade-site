@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- */
-/*                                  Top Page                                  */
+/*  #region                         Top Page                                  */
 /* -------------------------------------------------------------------------- */
 
 .top_page_wrapper{
@@ -12,9 +12,9 @@
     margin-left: auto;
     margin-right: auto;
 }
-
+/* #endregion */
 /* -------------------------------------------------------------------------- */
-/*                               Desktop Layout                               */
+/*#region                             Desktop Layout                          */
 /* -------------------------------------------------------------------------- */
 
 .budget_left_panel{
@@ -82,8 +82,9 @@
     display: contents;
 }
 
+/* #endregion */
 /* -------------------------------------------------------------------------- */
-/*                                 Desktop Cat                                */
+/* #region                         Desktop Cat                                */
 /* -------------------------------------------------------------------------- */
 
 .cat_desktop_add_items{
@@ -101,8 +102,26 @@
     grid-column-start: 1;
     grid-column-end: 3;
 }
+
+.cat_button{
+    min-width: 30px!important;
+    background-color: transparent;
+}
+
+.standard-table tr th:nth-child(1){
+    width: 8rem!important;
+}
+
+
+.standard-table tr th:nth-child(3),
+.standard-table tr td:nth-child(3){
+    width: 6rem!important;
+    text-align: center;
+}
+
+/* #endregion */
 /* -------------------------------------------------------------------------- */
-/*                                Mobile Layout                               */
+/* #region                        Mobile Layout                               */
 /* -------------------------------------------------------------------------- */
 
 .budget_mobile_layout{
@@ -131,9 +150,9 @@
     width: 100%;
     height: 10%;
 }
-
+/* #endregion */
 /* -------------------------------------------------------------------------- */
-/*                            Screen Size Controls                            */
+/* #region                    Screen Size Controls                            */
 /* -------------------------------------------------------------------------- */
 
 @media (max-width:800px){
@@ -152,3 +171,4 @@
     }
 
 }
+/* #endregion */

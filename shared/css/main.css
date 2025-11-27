@@ -92,3 +92,59 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 Table Items                                */
+/* -------------------------------------------------------------------------- */
+
+.standard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-6);
+    text-align: left;
+    color: var(--color-text);
+    background-color: transparent;
+}
+
+
+
+.standard-table thead tr, .budget-table thead tr {
+    text-align: left;
+    font-weight: bold;
+    background-color: black;
+}
+
+.standard-table th,
+.standard-table td{
+    padding: var(--space-sm) var(--space-med);
+    border-bottom: 1px solid #ddd;
+}
+
+.standard-table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.standard-table tbody tr:nth-of-type(odd) {
+    background-color: var(--color-secondary);
+}
+
+.standard-table tbody tr:nth-of-type(even) {
+    background-color: var(--color-background);
+}
+
+.standard-table tbody tr:last-of-type {
+    /* border-bottom: 2px solid var(--color-accent); */
+}
+
+.standard-table tbody tr:hover {
+    background-color: var(--color-accent-2);
+    cursor: pointer;
+}
+
+.table-container {
+    /* background-color: var(--color-background); */
+    border-radius: var(--radius-sm);
+    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+    overflow: hidden; /* This clips the inner table to the rounded corners
+    /* padding: var(--space-sm);  */
+}

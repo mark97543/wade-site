@@ -129,7 +129,6 @@
 }
 
 .cat_list_display{
-    /* height: 500px;  <-- Removed fixed height */
     flex: 1;           /* Grow to fill the space left by the inputs */
     display: flex;          
     flex-direction: column; 
@@ -138,7 +137,8 @@
 
 .table-container{
     flex: 1;                
-    overflow-y: auto;       
+    overflow-x: hidden;
+    overflow-y: auto;   
     min-height: 0;          
     width: 100%;
 }
@@ -195,17 +195,4 @@
     }
 
 }
-/* #endregion */
-/* -------------------------------------------------------------------------- */
-/* #region                       Other Elements                               */
-/* -------------------------------------------------------------------------- */
-
-/* Custom Scrollbar for Webkit browsers (Chrome, Safari) */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--color-background); }
-::-webkit-scrollbar-thumb { background: var(--color-accent-2); border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
-::-webkit-scrollbar-corner {background: var(--color-background);
-}
-
 /* #endregion */

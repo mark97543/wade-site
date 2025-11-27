@@ -148,3 +148,17 @@ a:hover {
     overflow: scroll; /* This clips the inner table to the rounded corners
     /* padding: var(--space-sm);  */
 }
+
+/* -------------------------------------------------------------------------- */
+/* #region                       Other Elements                               */
+/* -------------------------------------------------------------------------- */
+
+/* Custom Scrollbar for Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-accent-2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+::-webkit-scrollbar-corner {background: var(--color-background);
+}
+
+/* #endregion */

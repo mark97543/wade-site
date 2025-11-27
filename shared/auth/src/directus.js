@@ -5,9 +5,8 @@ import { createDirectus, rest, authentication } from '@directus/sdk';
 // In a Vite project, environment variables are accessed via `import.meta.env`
 // and must be prefixed with `VITE_` to be exposed to the client.
 const directusUrl = import.meta.env.VITE_DIRECTUS_ADMIN_DOMAIN;
-//console.log('Initializing Directus with URL:', directusUrl);
+console.log('Initializing Directus with URL:', directusUrl);
 const directus = createDirectus(directusUrl)
-  .with(authentication('cookie'))
   .with(rest());
 
 export { directus };

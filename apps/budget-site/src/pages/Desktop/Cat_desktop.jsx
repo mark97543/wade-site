@@ -15,14 +15,25 @@ function Cat_desktop({selected}) {
   // 3. The Trigger: Fetch data when the component mounts
   useEffect(() => {
     if (selected === "cat") {
+      console.log("1. Fetching categories...");
       fetchCategories();
     }
   }, [selected]); // Re-fetch if the tab is selected (optional optimization)
 
   const fetchCategories = async () => {
     try {
+      console.log("2. Fetching categories...");
       const data = await getItems(collectionName);
-      setCategories(data);
+      console.log("3. Received categories raw data:", data); // More detailed log
+
+      // Ensure the data is an array before setting it.
+      // The Directus SDK might return an object with a `data` property depending on the query.
+      if (Array.isArray(data)) {
+        setCategories(data);
+      } else {
+        console.warn("Warning: getItems did not return an array. Data:", data);
+        setCategories([]); // Set to empty array to prevent UI errors
+      }
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch categories:", error);

@@ -108,7 +108,7 @@ a:hover {
 
 
 
-.standard-table thead tr, .budget-table thead tr {
+.standard-table thead tr {
     text-align: left;
     font-weight: bold;
     background-color: black;

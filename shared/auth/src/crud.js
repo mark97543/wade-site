@@ -28,26 +28,21 @@ const executeRequest = async (operation) => {
 };
 
 export const getItems = async (collection, query = {}) => {
-  console.log(`Fetching items for: ${collection}`);
   return await executeRequest(readItems(collection, query));
 };
 
 export const getItem = async (collection, id, query = {}) => {
-  console.log(`Fetching item ${id} from: ${collection}`);
   return await executeRequest(readItem(collection, id, query));
 };
 
 export const createNewItem = async (collection, data) => {
-  console.log(`Creating new item in: ${collection}`);
   return await executeRequest(createItem(collection, data));
 };
 
 export const updateExistingItem = async (collection, id, data) => {
-  console.log(`Updating item ${id} in: ${collection}`);
   return await executeRequest(updateItem(collection, id, data));
 };
 
 export const deleteExistingItem = async (collection, id) => {
-  console.log(`Deleting item ${id} from: ${collection}`);
   return await executeRequest(sdkDeleteItem(collection, id));
 };

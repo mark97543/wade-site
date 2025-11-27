@@ -145,6 +145,6 @@ a:hover {
     /* background-color: var(--color-background); */
     border-radius: var(--radius-sm);
     /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
-    overflow: hidden; /* This clips the inner table to the rounded corners
+    overflow: scroll; /* This clips the inner table to the rounded corners
     /* padding: var(--space-sm);  */
 }

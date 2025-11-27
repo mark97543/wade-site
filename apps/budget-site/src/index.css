@@ -82,10 +82,14 @@
     display: contents;
 }
 
+
+
 /* #endregion */
 /* -------------------------------------------------------------------------- */
 /* #region                         Desktop Cat                                */
 /* -------------------------------------------------------------------------- */
+
+
 
 .cat_desktop_add_items{
     display: grid;
@@ -116,6 +120,27 @@
 .standard-table tr td:nth-child(3){
     width: 6rem!important;
     text-align: center;
+}
+
+.cat_desktop_wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cat_list_display{
+    /* height: 500px;  <-- Removed fixed height */
+    flex: 1;           /* Grow to fill the space left by the inputs */
+    display: flex;          
+    flex-direction: column; 
+    min-height: 0;     /* Critical to prevent overflow */
+}
+
+.table-container{
+    flex: 1;                
+    overflow-y: auto;       
+    min-height: 0;          
+    width: 100%;
 }
 
 /* #endregion */
@@ -170,4 +195,17 @@
     }
 
 }
+/* #endregion */
+/* -------------------------------------------------------------------------- */
+/* #region                       Other Elements                               */
+/* -------------------------------------------------------------------------- */
+
+/* Custom Scrollbar for Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-accent-2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+::-webkit-scrollbar-corner {background: var(--color-background);
+}
+
 /* #endregion */

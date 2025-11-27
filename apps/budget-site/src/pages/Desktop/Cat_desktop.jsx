@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Input, Button} from '@wade/ui'
-import { getItems, createNewItem, deleteExistingItem } from '@wade/auth'
+import { getItems, createNewItem, deleteExistingItem, updateExistingItem } from '@wade/auth'
 
 function Cat_desktop({selected}) {
   // 1. Configuration: Make sure this matches your Directus Collection Name exactly
@@ -12,6 +12,7 @@ function Cat_desktop({selected}) {
   const [newNote, setNewNote] = useState('')
   const [loading, setLoading] = useState(true)
   const [editing, setEditing]=useState()
+  const [editFormData, setEditFormData] = useState({ category: '', note: '' });
 
   // 3. The Trigger: Fetch data when the component mounts
   useEffect(() => {
@@ -70,13 +71,36 @@ function Cat_desktop({selected}) {
     }
   }
 
-  const editMode = (id)=>{
-    console.log('Editing: ',id)
-    setEditing(id)
+  const editMode = (item)=>{
+    console.log('Editing: ',item.id)
+    setEditing(item.id)
+    setEditFormData({ 
+      category: item.category, 
+      note: item.note
+    })
+  }
+
+  const handleEditChange = (e, fieldName) => {
+    setEditFormData({
+      ...editFormData,
+      [fieldName]: e.target.value
+    });
   }
 
   const cancelEdit = ()=>{
     setEditing('')
+  }
+
+  const saveEdit = async (id)=>{
+    try{
+      await updateExistingItem(collectionName, id, editFormData)
+    }catch(error){
+      console.error('Failed to edit item, ', error)
+      alert('Failed to edit Item')
+    }
+    setEditFormData({ category: '', note: '' });
+    fetchCategories(); 
+    cancelEdit();
   }
 
   return (
@@ -108,18 +132,58 @@ function Cat_desktop({selected}) {
                   <tbody>
                     {categories.map((cat) => (
                       <tr key={cat.id}>
-                        <td className={editing===cat.id ? "cat_desktop_selected_off":"cat_desktop_selected_on"}>{cat.category}</td>
-                        <td className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>Future Input Here</td>
-
-                        <td className={editing===cat.id ? "cat_desktop_selected_off":"cat_desktop_selected_on"}>{cat.note}</td>
-                        <td className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>Future Input Here</td>
-                        <td>
-                          <button className={`cat_button ${editing === cat.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} onClick={(e)=>editMode(cat.id)}><img src='./pencil.png'/></button>
-                          <button className={`cat_button ${editing === cat.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`}  onClick={(e)=>deleteItem(cat.id)}><img src='./delete.png'/></button>
-
-                          <button className={`cat_button ${editing === cat.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`}><img src='./save.png'/></button>
-                          <button className={`cat_button ${editing === cat.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`} onClick={()=>cancelEdit()}><img src='./cancel.png'/></button>
+                        <td 
+                          className={editing===cat.id ? "cat_desktop_selected_off":"cat_desktop_selected_on"}>
+                            {cat.category}
                         </td>
+
+                        <td 
+                          className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>
+                            <Input 
+                              type={'string'} 
+                              value={editFormData.category} 
+                              change={(e) => handleEditChange(e, 'category')}/>
+                        </td>
+
+                        <td 
+                          className={editing===cat.id ? "cat_desktop_selected_off":"cat_desktop_selected_on"}>
+                            {cat.note}
+                        </td>
+
+                        <td 
+                          className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>
+                            <Input 
+                              value={editFormData.note} 
+                              change={(e) => handleEditChange(e, 'note')}/>
+                        </td>
+
+                        <td>
+                          <button 
+                            className={`cat_button ${editing === cat.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
+                            onClick={(e)=>editMode(cat)}>
+                              <img src='./pencil.png'/>
+                          </button>
+
+                          <button 
+                            className={`cat_button ${editing === cat.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`}  
+                            onClick={(e)=>deleteItem(cat.id)}>
+                              <img src='./delete.png'/>
+                          </button>
+
+                          <button 
+                            className={`cat_button ${editing === cat.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`}
+                            onClick={(e)=>saveEdit(cat.id)}>
+                              <img src='./save.png'/>
+                          </button>
+
+                          <button 
+                            className={`cat_button ${editing === cat.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`} 
+                            onClick={()=>cancelEdit()}>
+                              <img src='./cancel.png'/>
+                          </button>
+
+                        </td>
+
                       </tr>
                     ))}
                   </tbody>

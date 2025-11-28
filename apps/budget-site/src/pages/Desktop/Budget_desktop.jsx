@@ -96,6 +96,17 @@ function Budget_desktop({selected}) {
       setEditing('')
     }
 
+    const deleteItem = async (id)=>{
+       //console.log('Item ID: ', id)
+      try{
+        await deleteExistingItem('monthly_budget',id);
+        fetchItems('monthly_budget');
+      }catch(error){
+        console.error('Failed to Delete Item, ', error)
+        alert("Error Deleteing Item Check Console")
+      }
+    }
+
   return (
     <div className={selected === "budget" ? "budget_desktop_selected" : "budget_desktop_not_selected"} >
         <div className='budget_desktop_add'>
@@ -121,7 +132,7 @@ function Budget_desktop({selected}) {
                 {budget.filter((i) => i.type === "Income").map((item) => (
                   <tr key={item.id}>
                     <td>{item.item}</td>
-                    <td>{item.amount}</td>
+                    <td>$ {item.amount}</td>
                     <td>{item.category}</td>
                     <td>
                       <button 
@@ -131,7 +142,7 @@ function Budget_desktop({selected}) {
                       </button>
                       <button
                         className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
-                        onClick={(e)=>editMode(item)}>
+                        onClick={(e)=>deleteItem(item.id)}>
                           <img src='./delete.png'/>
                       </button>
                       <button 

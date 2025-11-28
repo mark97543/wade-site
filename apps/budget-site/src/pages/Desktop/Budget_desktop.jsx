@@ -17,7 +17,7 @@ function Budget_desktop({selected}) {
     const [editAmountVal, setEditAmountVal] = useState('')
     const [editCategoryVal, setEditCategoryVal] = useState('')
     
-
+//fORCE RECREATR
     const incomeTotal = budget.filter((i)=>i.type==="Income").reduce((total,item)=>total + Number(item.amount),0)
     const expenseTotal = budget.filter((i)=>i.type==="Expense").reduce((total,item)=>total + Number(item.amount),0)
 

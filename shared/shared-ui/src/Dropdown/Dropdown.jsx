@@ -8,13 +8,15 @@
  * @param {boolean} [props.catID=false] - If true, the component will use the 'catID' property from the item objects for the option value and key. If false or omitted, it will use the item itself (for simple string arrays).
  */
 
-export function Dropdown({Items, catID}){
+export function Dropdown({Items, catID, label}){
 
     return(
         <div>
-            <select>
+            <label htmlFor={label}>{label}</label>
+            <select name={label} id={label}>
+                <option value="" disabled selected hidden>Select an option</option>
                 {Items?.map((item) => {
-                    const value = catID ? item.catID : item;
+                    const value = catID ? item[catID] : item;
                     return (
                         <option key={value} id={value} value={value}>
                             {value}

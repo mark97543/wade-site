@@ -17,7 +17,6 @@ function Budget_desktop({selected}) {
     const [editAmountVal, setEditAmountVal] = useState('')
     const [editCategoryVal, setEditCategoryVal] = useState('')
     
-//fORCE RECREATR
     const incomeTotal = budget.filter((i)=>i.type==="Income").reduce((total,item)=>total + Number(item.amount),0)
     const expenseTotal = budget.filter((i)=>i.type==="Expense").reduce((total,item)=>total + Number(item.amount),0)
 
@@ -203,7 +202,7 @@ function Budget_desktop({selected}) {
               <tfoot className='monthly_budget_footer'>
                 <tr>
                   <td><strong>Total:</strong></td>
-                  <td><strong>$ {incomeTotal}</strong></td>
+                  <td><strong>$ {(incomeTotal.toFixed(2))}</strong></td>
                   <td colSpan="2"></td>
                 </tr>
               </tfoot>
@@ -270,7 +269,7 @@ function Budget_desktop({selected}) {
               <tfoot className='monthly_budget_footer'>
                 <tr>
                   <td><strong>Total:</strong></td>
-                  <td><strong>$ ({expenseTotal})</strong></td>
+                  <td><strong>$ ({expenseTotal.toFixed(2)})</strong></td>
                   <td colSpan="2"></td>
                 </tr>
               </tfoot>

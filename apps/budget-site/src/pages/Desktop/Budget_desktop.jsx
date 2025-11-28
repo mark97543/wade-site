@@ -25,7 +25,7 @@ function Budget_desktop({selected}) {
       try {
         const data = await getItems(collectionName);
         if (Array.isArray(data)) {
-          setCategories(data) 
+          setCategories(data.sort((a, b) => a.category.localeCompare(b.category))) 
         } else {
           console.warn("Warning: getItems did not return an array. Data:", data);
           setCategories([]); 
@@ -39,7 +39,7 @@ function Budget_desktop({selected}) {
       try {
         const data = await getItems(collectionName);
         if(Array.isArray(data)){
-          setBudget(data)
+          setBudget(data.sort((a, b) => a.item.localeCompare(b.item)))
         }else{
           console.warn("Warning: getItems did not return an array. Data:", data);
           setBudget([]); 
@@ -278,7 +278,7 @@ function Budget_desktop({selected}) {
           </div>
         </div>
         <div className='budget_desktop_footer'>
-            <h5><strong>Monthly Budget: $ {incomeTotal - expenseTotal}</strong></h5>
+            <h5><strong>Monthly Budget: $ {(incomeTotal - expenseTotal).toFixed(2)}</strong></h5>
         </div>
       </div>
     </div>

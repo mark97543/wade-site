@@ -25,7 +25,7 @@ function Cat_desktop({selected}) {
     try {
       const data = await getItems(collectionName);
       if (Array.isArray(data)) {
-        setCategories(data);
+        setCategories(data.sort((a, b) => a.category.localeCompare(b.category))) 
       } else {
         console.warn("Warning: getItems did not return an array. Data:", data);
         setCategories([]); // Set to empty array to prevent UI errors

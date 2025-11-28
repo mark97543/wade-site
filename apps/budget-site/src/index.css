@@ -284,4 +284,19 @@
     flex-direction: column;
 }
 
+.budget_desktop_footer *{
+    margin:0px;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--color-background);
+    border-radius: var(--radius-med);
+}
+
+.monthly_budget_title{
+    text-align: center;
+    padding: 10px;
+    margin: 0px;
+    background-color: olivedrab;
+}
+
 /* #endregion */

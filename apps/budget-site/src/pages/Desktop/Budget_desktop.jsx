@@ -142,7 +142,7 @@ function Budget_desktop({selected}) {
         </div>
 
         <div className='budget_desktop_display'>
-          <h4>Income</h4>
+          <h4 className='monthly_budget_title'>Income</h4>
           <div className='budget_table_container'>
             <table className='standard-table monthly_budget_table'>
               <thead>
@@ -209,7 +209,7 @@ function Budget_desktop({selected}) {
               </tfoot>
             </table>
           </div>
-          <h4>Expense</h4>
+          <h4 className='monthly_budget_title'>Expense</h4>
           <div className='budget_table_container'>
             <table className='standard-table monthly_budget_table'>
               <thead>
@@ -276,6 +276,9 @@ function Budget_desktop({selected}) {
               </tfoot>
             </table>
           </div>
+        </div>
+        <div className='budget_desktop_footer'>
+            <h5><strong>Monthly Budget: $ {incomeTotal - expenseTotal}</strong></h5>
         </div>
       </div>
     </div>

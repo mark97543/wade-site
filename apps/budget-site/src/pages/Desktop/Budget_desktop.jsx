@@ -48,12 +48,22 @@ function Budget_desktop({selected}) {
         return
       }
 
-
-
-      setNewItem("")
-      setAmount('')
-      setSelectedCategory('')
-      setSelectedType('')
+      try{
+        const payload = {
+          item: newItem,
+          amount: amount,
+          type: selectedType,
+          category:selectedCategory
+        }
+        await createNewItem('monthly_budget', payload);
+        setNewItem("")
+        setAmount('')
+        setSelectedCategory('')
+        setSelectedType('')
+      }catch(error){
+        console.error('Could not save: ', error)
+        alert("Failed to sve Data")
+      }
     }
 
   return (

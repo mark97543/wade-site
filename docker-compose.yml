@@ -32,6 +32,7 @@ services:
     environment:
       KEY: "${SECRET}"
       SECRET: "${SECRET}"
+      ACCESS_TOKEN_TTL: "60m"
       ADMIN_EMAIL: "${ADMIN_EMAIL}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
       DB_CLIENT: "pg"

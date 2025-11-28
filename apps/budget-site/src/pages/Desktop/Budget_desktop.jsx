@@ -7,6 +7,11 @@ const transType = ['Income', 'Expense']
 
 function Budget_desktop({selected}) {
     const [categories,setCategories]=useState([])
+    const [newItem, setNewItem] = useState('')
+    const [amount, setAmount]=useState('')
+    const [selectedType, setSelectedType] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
+    
 
     const fetchCategories = async (collectionName) => {
       try {
@@ -28,16 +33,37 @@ function Budget_desktop({selected}) {
       }
     }, [selected]);
 
-    console.log(categories)
+    const addButton = async ()=>{
+      if(!newItem){
+        alert("All Entries Required")
+        return
+      }else if(!amount){
+        alert('All Entries Required')
+        return
+      }else if(selectedCategory===""){
+        alert('All Entries Required')
+        return
+      }else if(selectedType===""){
+        alert('All Entries Required')
+        return
+      }
+
+
+
+      setNewItem("")
+      setAmount('')
+      setSelectedCategory('')
+      setSelectedType('')
+    }
 
   return (
     <div className={selected === "budget" ? "budget_desktop_selected" : "budget_desktop_not_selected"} >
         <div className='budget_desktop_add'>
-          <Input labelText={'Add Item'} type={'text'}/>
-          <Input labelText={'Amount'} type={'text'}/>
-          <Dropdown Items={transType} label={'Transaction Type'}/>
-          <Dropdown label={'Category'} Items={categories} catID={'category'}/>
-          <Button text={'Add Item'} button_type={'primary'}/>
+          <Input labelText={'Add Item'} type={'text'} id={'add_item'} value={newItem} change={(e)=>setNewItem(e.target.value)}/>
+          <Input labelText={'Amount'} type={'number'} id={'amount'} value={amount} change={(e)=>setAmount(e.target.value)}/>
+          <Dropdown Items={transType} label={'Transaction Type'} value={selectedType} change={(e) => setSelectedType(e.target.value)}/>
+          <Dropdown label={'Category'} Items={categories} catID={'category'} value={selectedCategory} change={(e) => setSelectedCategory(e.target.value)}/>
+          <Button text={'Add Item'} button_type={'primary'} func={addButton}/>
         </div>
       
     </div>

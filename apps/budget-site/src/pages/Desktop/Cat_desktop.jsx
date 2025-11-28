@@ -1,3 +1,5 @@
+//Categories Desktop Component
+
 import React, {useState, useEffect} from 'react'
 import {Input, Button} from '@wade/ui'
 import { getItems, createNewItem, deleteExistingItem, updateExistingItem } from '@wade/auth'

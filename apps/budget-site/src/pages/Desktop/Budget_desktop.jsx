@@ -19,6 +19,7 @@ function Budget_desktop({selected}) {
     
 
     const incomeTotal = budget.filter((i)=>i.type==="Income").reduce((total,item)=>total + Number(item.amount),0)
+    const expenseTotal = budget.filter((i)=>i.type==="Expense").reduce((total,item)=>total + Number(item.amount),0)
 
     const fetchCategories = async (collectionName) => {
       try {
@@ -131,6 +132,7 @@ function Budget_desktop({selected}) {
 
   return (
     <div className={selected === "budget" ? "budget_desktop_selected" : "budget_desktop_not_selected"} >
+      <div className='budget_desktop_container'>
         <div className='budget_desktop_add'>
           <Input labelText={'Add Item'} type={'text'} id={'add_item'} value={newItem} change={(e)=>setNewItem(e.target.value)}/>
           <Input labelText={'Amount'} type={'number'} id={'amount'} value={amount} change={(e)=>setAmount(e.target.value)}/>
@@ -141,6 +143,7 @@ function Budget_desktop({selected}) {
 
         <div className='budget_desktop_display'>
           <h4>Income</h4>
+          <div className='budget_table_container'>
             <table className='standard-table monthly_budget_table'>
               <thead>
                 <tr>
@@ -204,14 +207,77 @@ function Budget_desktop({selected}) {
                   <td colSpan="2"></td>
                 </tr>
               </tfoot>
-
-
             </table>
+          </div>
           <h4>Expense</h4>
-
+          <div className='budget_table_container'>
+            <table className='standard-table monthly_budget_table'>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Amount</th>
+                  <th>Category</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {budget.filter((i) => i.type === "Expense").map((item) => (
+                  <tr key={item.id}>
+                    {editing === item.id ? (
+                      <>
+                        <td><input type="text" value={editItemVal} onChange={(e)=>setEditItemVal(e.target.value)}/></td>
+                        <td><input type="number" value={editAmountVal} onChange={(e)=>setEditAmountVal(e.target.value)}/></td>
+                        <td>
+                          <select value={editCategoryVal} onChange={(e)=>setEditCategoryVal(e.target.value)}>
+                            {categories.map((cat, index) => (
+                              <option key={index} value={cat.category}>{cat.category}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>{item.item}</td>
+                        <td>$ ({item.amount})</td>
+                        <td>{item.category}</td>
+                      </>
+                    )}
+                    <td>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
+                        onClick={(e)=>editMode(item)}>
+                          <img src='./pencil.png'/>
+                      </button>
+                      <button
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
+                        onClick={(e)=>deleteItem(item.id)}>
+                          <img src='./delete.png'/>
+                      </button>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`}
+                        onClick={(e)=>saveEdit(item.id)}>
+                          <img src='./save.png'/>
+                      </button>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`} 
+                        onClick={()=>cancelEdit()}>
+                          <img src='./cancel.png'/>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className='monthly_budget_footer'>
+                <tr>
+                  <td><strong>Total:</strong></td>
+                  <td><strong>$ ({expenseTotal})</strong></td>
+                  <td colSpan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
-
-      
+      </div>
     </div>
   )
 }

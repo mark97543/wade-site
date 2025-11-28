@@ -26,7 +26,7 @@ Bash
 
 ```
 # Navigate to your project root if needed
-git add apps/backend/extensions/snapshot.yaml  # (Adjust path if your git root is different)
+git add backend/extensions/snapshot.yaml  # (Adjust path if your git root is different)
 git commit -m "Update Directus schema"
 git push origin main
 ```

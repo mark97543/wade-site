@@ -38,6 +38,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# --- 6. Exceptions (Things we WANT to track) ---
-# We specifically want to track the schema snapshot
-!backend/extensions/snapshot.yaml
+# # --- 6. Exceptions (Things we WANT to track) ---
+# # We specifically want to track the schema snapshot
+# !backend/extensions/snapshot.yaml

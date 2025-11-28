@@ -236,4 +236,17 @@
     grid-column-end: 6;
 }
 
+.monthly_budget_footer{
+    background-color: black;
+}
+
+.monthly_budget_footer tr td:nth-child(1){
+    text-align: right;
+}
+
+.monthly_budget_table{
+    
+}
+
+
 /* #endregion */

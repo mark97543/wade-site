@@ -11,7 +11,11 @@ function Budget_desktop({selected}) {
     const [amount, setAmount]=useState('')
     const [selectedType, setSelectedType] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('')
+    const [budget, setBudget]=useState([])
+    const [editing, setEditing]=useState()
     
+
+    const incomeTotal = budget.filter((i)=>i.type==="Income").reduce((total,item)=>total + Number(item.amount),0)
 
     const fetchCategories = async (collectionName) => {
       try {
@@ -27,9 +31,24 @@ function Budget_desktop({selected}) {
       }
     }
 
+    const fetchItems = async ( collectionName) => {
+      try {
+        const data = await getItems(collectionName);
+        if(Array.isArray(data)){
+          setBudget(data)
+        }else{
+          console.warn("Warning: getItems did not return an array. Data:", data);
+          setBudget([]); 
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    }
+
     useEffect(() => {
       if (selected === "budget") {
         fetchCategories('budget_categories');
+        fetchItems('monthly_budget');
       }
     }, [selected]);
 
@@ -60,10 +79,16 @@ function Budget_desktop({selected}) {
         setAmount('')
         setSelectedCategory('')
         setSelectedType('')
+        fetchItems('monthly_budget')
       }catch(error){
         console.error('Could not save: ', error)
         alert("Failed to sve Data")
       }
+    }
+
+    const editMode = (item)=>{
+      console.log('Editing: ',item.id)
+      setEditing(item.id)
     }
 
   return (
@@ -75,6 +100,51 @@ function Budget_desktop({selected}) {
           <Dropdown label={'Category'} Items={categories} catID={'category'} value={selectedCategory} change={(e) => setSelectedCategory(e.target.value)}/>
           <Button text={'Add Item'} button_type={'primary'} func={addButton}/>
         </div>
+
+        <div className='budget_desktop_display'>
+          <h4>Income</h4>
+            <table className='standard-table monthly_budget_table'>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Amount</th>
+                  <th>Category</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {budget.filter((i) => i.type === "Income").map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.item}</td>
+                    <td>{item.amount}</td>
+                    <td>{item.category}</td>
+                    <td>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
+                        onClick={(e)=>editMode(item)}>
+                          <img src='./pencil.png'/>
+                      </button>
+                      <button>
+                        B
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className='monthly_budget_footer'>
+                <tr>
+                  <td><strong>Total:</strong></td>
+                  <td><strong>$ {incomeTotal}</strong></td>
+                  <td colSpan="2"></td>
+                </tr>
+              </tfoot>
+
+
+            </table>
+          <h4>Expense</h4>
+
+        </div>
+
       
     </div>
   )

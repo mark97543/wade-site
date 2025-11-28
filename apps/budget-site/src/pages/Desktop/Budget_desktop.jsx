@@ -144,10 +144,6 @@ function Budget_desktop({selected}) {
                         onClick={()=>cancelEdit()}>
                           <img src='./cancel.png'/>
                       </button>
-
-
-
-
                     </td>
                   </tr>
                 ))}

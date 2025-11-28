@@ -110,19 +110,19 @@
     background-color: transparent;
 }
 
-.standard-table tr td:nth-child(1),
-.standard-table tr td:nth-child(2){
+.standard-table.cat_table tr td:nth-child(1),
+.standard-table.cat_table tr td:nth-child(2){
     width: 30%!important;
 }
 
-.standard-table tr td:nth-child(3),
-.standard-table tr td:nth-child(4){
+.standard-table.cat_table tr td:nth-child(3),
+.standard-table.cat_table tr td:nth-child(4){
     width: 50%!important;
     text-align: left;
 }
 
-.standard-table tr th:nth-child(3),
-.standard-table tr td:nth-child(5){
+.standard-table.cat_table tr th:nth-child(3),
+.standard-table.cat_table tr td:nth-child(5){
     width: 16%!important;
     text-align: center;
 }
@@ -244,6 +244,21 @@
     text-align: right;
 }
 
+.standard-table.monthly_budget_table tr th:nth-child(1){
+    width: auto;
+}
+
+.standard-table.monthly_budget_table tr th:nth-child(2){
+    width: 15%;
+}
+
+.standard-table.monthly_budget_table tr th:nth-child(3){
+    width: auto;
+}
+
+.standard-table.monthly_budget_table tr th:nth-child(4){
+    width: 15%;
+}
 
 
 /* #endregion */

@@ -121,7 +121,7 @@ function Cat_desktop({selected}) {
               <p>Loading...</p>
             ) : (
               <div className="table-container">
-                <table className='standard-table'>
+                <table className='standard-table cat_table'>
                   <thead>
                     <tr>
                       <th>Category</th>

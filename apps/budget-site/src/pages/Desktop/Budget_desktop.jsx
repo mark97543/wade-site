@@ -91,6 +91,11 @@ function Budget_desktop({selected}) {
       setEditing(item.id)
     }
 
+
+    const cancelEdit = ()=>{
+      setEditing('')
+    }
+
   return (
     <div className={selected === "budget" ? "budget_desktop_selected" : "budget_desktop_not_selected"} >
         <div className='budget_desktop_add'>
@@ -124,9 +129,25 @@ function Budget_desktop({selected}) {
                         onClick={(e)=>editMode(item)}>
                           <img src='./pencil.png'/>
                       </button>
-                      <button>
-                        B
+                      <button
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 
+                        onClick={(e)=>editMode(item)}>
+                          <img src='./delete.png'/>
                       </button>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`}
+                        onClick={(e)=>saveEdit(item.id)}>
+                          <img src='./save.png'/>
+                      </button>
+                      <button 
+                        className={`cat_button ${editing === item.id ? "cat_desktop_selected_on" : "cat_desktop_selected_off"}`} 
+                        onClick={()=>cancelEdit()}>
+                          <img src='./cancel.png'/>
+                      </button>
+
+
+
+
                     </td>
                   </tr>
                 ))}

@@ -260,5 +260,16 @@
     width: 15%;
 }
 
+.standard-table.monthly_budget_table input {
+    width: 100%;
+    margin: 0px;
+}
+
+.standard-table.monthly_budget_table select {
+    width: 100%;
+    margin: 0px;
+}
+
+
 
 /* #endregion */

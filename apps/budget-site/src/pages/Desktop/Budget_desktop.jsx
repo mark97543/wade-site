@@ -13,6 +13,9 @@ function Budget_desktop({selected}) {
     const [selectedCategory, setSelectedCategory] = useState('')
     const [budget, setBudget]=useState([])
     const [editing, setEditing]=useState()
+    const [editItemVal, setEditItemVal] = useState('')
+    const [editAmountVal, setEditAmountVal] = useState('')
+    const [editCategoryVal, setEditCategoryVal] = useState('')
     
 
     const incomeTotal = budget.filter((i)=>i.type==="Income").reduce((total,item)=>total + Number(item.amount),0)
@@ -89,6 +92,25 @@ function Budget_desktop({selected}) {
     const editMode = (item)=>{
       console.log('Editing: ',item.id)
       setEditing(item.id)
+      setEditItemVal(item.item)
+      setEditAmountVal(item.amount)
+      setEditCategoryVal(item.category)
+    }
+
+    const saveEdit = async (id) => {
+      try {
+        const payload = {
+          item: editItemVal,
+          amount: editAmountVal,
+          category: editCategoryVal
+        }
+        await updateExistingItem('monthly_budget', id, payload)
+        setEditing('')
+        fetchItems('monthly_budget')
+      } catch (error) {
+        console.error("Failed to save edit:", error)
+        alert("Failed to save changes")
+      }
     }
 
 
@@ -131,9 +153,25 @@ function Budget_desktop({selected}) {
               <tbody>
                 {budget.filter((i) => i.type === "Income").map((item) => (
                   <tr key={item.id}>
-                    <td>{item.item}</td>
-                    <td>$ {item.amount}</td>
-                    <td>{item.category}</td>
+                    {editing === item.id ? (
+                      <>
+                        <td><input type="text" value={editItemVal} onChange={(e)=>setEditItemVal(e.target.value)}/></td>
+                        <td><input type="number" value={editAmountVal} onChange={(e)=>setEditAmountVal(e.target.value)}/></td>
+                        <td>
+                          <select value={editCategoryVal} onChange={(e)=>setEditCategoryVal(e.target.value)}>
+                            {categories.map((cat, index) => (
+                              <option key={index} value={cat.category}>{cat.category}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>{item.item}</td>
+                        <td>$ {item.amount}</td>
+                        <td>{item.category}</td>
+                      </>
+                    )}
                     <td>
                       <button 
                         className={`cat_button ${editing === item.id ? "cat_desktop_selected_off" : "cat_desktop_selected_on"}`} 

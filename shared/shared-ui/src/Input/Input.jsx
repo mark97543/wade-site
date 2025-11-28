@@ -13,8 +13,8 @@ import './Input.css'
 export function Input({labelText, type, id, value, change}){
     return(
         <div className="std_label_div">
-            <label className="std_label" htmlFor={id}>{labelText}</label>
-            <input className="std_input" type={type} id={id} name={id} value={value} onChange={change}/>
+            <label  htmlFor={id}>{labelText}</label>
+            <input  type={type} id={id} name={id} value={value} onChange={change}/>
         
         </div>
     )

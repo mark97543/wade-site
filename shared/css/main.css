@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- */
-/*                               Root Variables                               */
+/* #region                       Root Variables                               */
 /* -------------------------------------------------------------------------- */
 :root{
     --color-background: #242424;
@@ -11,6 +11,10 @@
     --color-text:rgba(255, 255, 255, 0.87);
     --text-font:sans-serif;
     --color-link-visited: #9D7BFF; /* For visited links */
+       /* --- Utility Colors for Contrast (Used internally for text on specific backgrounds) --- */
+    --color-text-on-light: #1A1A1A; /* For text on bright/light elements like buttons */
+    --color-text-on-dark: #E0E0E0;  /* For text on dark elements like backgrounds */
+
 
     /* Button Colors */
     --color-button-primary: #3498db; /* Use for primary actions, like 'Submit' or 'Save' */
@@ -24,6 +28,7 @@
     --radius-sm:10px;
     --radius-med:15px;
     --radius-lg:20px;
+    --radius-xlg:30px;
 
     /* Spaceing */
     --space-xsm:5px;
@@ -40,9 +45,9 @@
     --font-size-2:2rem;/* 32px */
     --font-size-1:2.5rem;/* 40px */
 }
-
+/*#endregion*/
 /* -------------------------------------------------------------------------- */
-/*                               Body Formating                               */
+/*  #region                      Body Formating                               */
 /* -------------------------------------------------------------------------- */
 
 body{
@@ -51,9 +56,9 @@ body{
     font-family: var(--text-font);
     font-size: 100%; /* 16px */
 }
-
+/* #endregion*/
 /* -------------------------------------------------------------------------- */
-/*                             Tag Adjustments                             */
+/* #region                        Tag Adjustments                             */
 /* -------------------------------------------------------------------------- */
 
 h1{
@@ -92,9 +97,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
+/*#endregion*/
 /* -------------------------------------------------------------------------- */
-/*                                 Table Items                                */
+/*  #region                        Table Items                                */
 /* -------------------------------------------------------------------------- */
 
 .standard-table {
@@ -148,7 +153,7 @@ a:hover {
     overflow: scroll; /* This clips the inner table to the rounded corners
     /* padding: var(--space-sm);  */
 }
-
+/*#endregion*/
 /* -------------------------------------------------------------------------- */
 /* #region                       Other Elements                               */
 /* -------------------------------------------------------------------------- */
@@ -162,3 +167,75 @@ a:hover {
 }
 
 /* #endregion */
+/* -------------------------------------------------------------------------- */
+/* #region                           Inputs                                   */
+/* -------------------------------------------------------------------------- */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    padding: .75rem;
+    border-radius: var(--radius-xsm);
+    font-family: var(--text-font);
+    font-size: var(--font-size-6);
+    margin-bottom: var(--space-med);
+    text-align: left;
+}
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(var(--color-accent), 0.3);
+}
+
+/*#endregion*/
+/* -------------------------------------------------------------------------- */
+/* #region                           Labels                                   */
+/* -------------------------------------------------------------------------- */
+
+label{
+    display: block;
+    margin-bottom: var(--space-xsm);
+    font-size: var(--font-size-6);
+    font-weight: 500;
+}
+
+div, label {
+    color: var(--color-text-on-dark);
+}
+/*#endregion*/
+/* -------------------------------------------------------------------------- */
+/* #region                           Buttons                                  */
+/* -------------------------------------------------------------------------- */
+
+button {
+    background-color: var(--color-accent);
+    color: var(--color-text-on-light);
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: var(--radius-xlg);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+    font-size: var(--font-size-6);
+    height: 44px;
+    min-width: 100px;
+    transition: transform 0.1s ease, filter 0.2s;
+}
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(110%);
+}
+
+button:active{
+    transform: scale(0.90) translateY(0);
+}
+/*#endregion*/
+/* -------------------------------------------------------------------------- */
+/* #region                           Selects                                  */
+/* -------------------------------------------------------------------------- */

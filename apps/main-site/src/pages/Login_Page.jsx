@@ -51,7 +51,7 @@ export function Login_Page() {
                 />
 
                 <Input
-                    labelText={'password'}
+                    labelText={'Password'}
                     type={'password'}
                     id={'userpassword'}
                     value={password}

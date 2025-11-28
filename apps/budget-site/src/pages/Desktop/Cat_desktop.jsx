@@ -140,7 +140,8 @@ function Cat_desktop({selected}) {
                         <td 
                           className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>
                             <Input 
-                              type={'string'} 
+                              id={cat.id}
+                              type={'text'} 
                               value={editFormData.category} 
                               change={(e) => handleEditChange(e, 'category')}/>
                         </td>
@@ -153,6 +154,8 @@ function Cat_desktop({selected}) {
                         <td 
                           className={editing===cat.id ? "cat_desktop_selected_on":"cat_desktop_selected_off"}>
                             <Input 
+                              id={cat.id}
+                              type={'text'}
                               value={editFormData.note} 
                               change={(e) => handleEditChange(e, 'note')}/>
                         </td>

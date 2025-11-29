@@ -8,10 +8,10 @@
     margin-top: var(--space-lg);
     width: 100%;
     height: calc(100vh - 150px - var(--space-lg));
-    max-width: 950px;
+    max-width: 1500px;
     margin-left: auto;
     margin-right: auto;
-    min-width: 950px;
+    min-width: 700px;
 }
 /* #endregion */
 /* -------------------------------------------------------------------------- */
@@ -251,7 +251,7 @@
 /* #region                    Screen Size Controls                            */
 /* -------------------------------------------------------------------------- */
 
-@media (max-width:950px){
+@media (max-width:850px){
     .budget_desktop_layout{
         display: none;
     }
@@ -411,6 +411,47 @@
 
 .standard-table.double-row tr th{
     padding: 5px;
+}
+
+.trans_delete_col{
+    width: 4%;
+    align-content: center;
+    text-align: center;
+}
+
+.trans_balance_col{
+    width: 16%;
+    align-content: center;
+    text-align: right;
+}
+
+.trans_item_col{
+    width: auto;
+    align-content: center;
+    text-align: left;
+}
+
+.trans_amount_col{
+    width: 16%;
+    align-content: center;
+    text-align: center;
+}
+
+.trans_date_col{
+    width: 16%;
+    align-content: center;
+    text-align: center;
+}
+
+.trans_subrow{
+    width: auto;
+    align-content: left;
+    text-align: left;
+}
+
+.trans_note_col,
+.trans_note_col td{
+    border-top: none!important;
 }
 
 

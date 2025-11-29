@@ -28,7 +28,7 @@ export function Desktop_Layout(){
                         className="collapse_toggle_btn" 
                         onClick={() => setCollapsed(!collapsed)}
                     >
-                        {collapsed ? "➜" : "⬅"}
+                        {collapsed ? <img src="./right.png"/>: <img src="./left.png"/>}
                     </button>
                 </div>
                 <div 

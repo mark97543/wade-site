@@ -9,12 +9,13 @@ import './Input.css'
  * @param {string} id A unique identifier for the input and label association.
  * @param {string} value the current value of the item
  * @param {string} change function to change item
+ * @param {string} placeholder placeholder text for the input
  */
-export function Input({labelText, type, id, value, change}){
+export function Input({labelText, type, id, value, change, placeholder}){
     return(
         <div className="std_label_div">
             <label  htmlFor={id}>{labelText}</label>
-            <input  type={type} id={id} name={id} value={value} onChange={change}/>
+            <input  type={type} id={id} name={id} value={value} onChange={change} placeholder={placeholder}/>
         
         </div>
     )

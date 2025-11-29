@@ -300,3 +300,27 @@
 }
 
 /* #endregion */
+/* -------------------------------------------------------------------------- */
+/* #region                        Desktop Transactions                        */
+/* -------------------------------------------------------------------------- */
+
+.trans_desktop_add{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+    gap:10px;
+    justify-content: center;
+    align-items: center;    
+}
+
+.trans_desktop_add input{
+    margin-bottom: 0px;
+}
+
+.trans_desktop_add select {
+    width: 100%;
+    height: 44px;
+}
+
+
+/* #endregion */

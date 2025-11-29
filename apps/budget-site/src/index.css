@@ -91,18 +91,31 @@
 /* -------------------------------------------------------------------------- */
 
 .budget_left_panel.collapsed {
-    width: 5rem;
+    width: 50px;
+    padding: 0px;
     grid-template-rows: 2rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem auto;
+    grid-template-columns: 100%;
+    overflow: hidden;
 }
 
 .budget_left_panel.collapsed .budget_menu_item {
-    grid-template-columns: 1fr;
+    display: flex;
     justify-content: center;
-    padding-left: 0;
+    align-items: center;
+    width: 100%;
+    max-width: 50px;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .budget_left_panel.collapsed h6 {
     display: none;
+}
+
+.budget_left_panel.collapsed img {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .collapse_toggle_container {

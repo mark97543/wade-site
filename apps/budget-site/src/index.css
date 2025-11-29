@@ -456,4 +456,20 @@
 
 
 
+
+.trans_desktop_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.trans_desktop_table {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    width: 100%;
+    margin-top: 10px;
+}
+
 /* #endregion */

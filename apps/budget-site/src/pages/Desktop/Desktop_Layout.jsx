@@ -11,6 +11,7 @@ import Cat_desktop from "./Cat_desktop"
 export function Desktop_Layout(){
 
     const [selected, setSelected]=useState("dashboard")
+    const [collapsed, setCollapsed] = useState(false)
 
     const selectionClicked = (number)=>{
         setSelected(number)
@@ -21,55 +22,70 @@ export function Desktop_Layout(){
         <div className="budget_desktop_layout">
 
 
-            <div className="budget_left_panel">
+            <div className={`budget_left_panel ${collapsed ? "collapsed" : ""}`}>
+                <div className="collapse_toggle_container">
+                    <button 
+                        className="collapse_toggle_btn" 
+                        onClick={() => setCollapsed(!collapsed)}
+                    >
+                        {collapsed ? "➜" : "⬅"}
+                    </button>
+                </div>
                 <div 
-                    className={selected === "dashboard" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "dashboard" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("dashboard")}
+                    title="Dashboard"
                     >
                         <img src="./dashboard.png"/>
-                        <h6>Dashboard</h6>
+                        {!collapsed && <h6>Dashboard</h6>}
                 </div>
                 <div 
-                    className={selected === "budget" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "budget" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("budget")}
+                    title="Budget"
                     >
                         <img src="./budget.png"/>
-                        <h6>Budget</h6>
+                        {!collapsed && <h6>Budget</h6>}
                 </div>
                 <div 
-                    className={selected === "trans" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "trans" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("trans")}
+                    title="Transactions"
                     >
                         <img src="./transaction.png"/>
-                        <h6>Transactions</h6>
+                        {!collapsed && <h6>Transactions</h6>}
                 </div>
                 <div 
-                    className={selected === "debt" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "debt" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("debt")}
+                    title="Debt"
                     >
                         <img src="./debt.png"/>
-                        <h6>Debt</h6>
+                        {!collapsed && <h6>Debt</h6>}
                 </div>
                 <div 
-                    className={selected === "goals" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "goals" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("goals")}
+                    title="Goals"
                     >
                         <img src="./goals.png"/>
-                        <h6>Goals</h6>
+                        {!collapsed && <h6>Goals</h6>}
                 </div>
                 <div 
-                    className={selected === "cat" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "cat" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("cat")}
+                    title="Budget Categories"
                     >
                         <img src="./Cat.png"/>
-                        <h6>Budget Catagories</h6>
+                        {!collapsed && <h6>Budget Catagories</h6>}
                 </div>               
                 <div 
-                    className={selected === "settings" ? "budget_desktop_hovered" : ""}
+                    className={`budget_menu_item ${selected === "settings" ? "budget_desktop_hovered" : ""}`}
                     onClick={()=>selectionClicked("settings")}
+                    title="Settings"
                     >
                         <img src="./settings.png"/>
-                        <h6>Settings</h6>
+                        {!collapsed && <h6>Settings</h6>}
                 </div>
             </div>
 
